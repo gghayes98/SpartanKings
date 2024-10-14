@@ -1,0 +1,3650 @@
+##### CUSTOM TERRAIN NUMBERS USED: 910 to 919 #####
+##### CUSTOM TERRAIN GROUPS USED: -1125 to -1127 #####
+
+# TODO LIST
+# 1. Polish god sprites - DONE
+# 2. Add Aprhodite event - DONE
+# 3. Fix Zeus's Lightning Bolt magic item - DONE
+# 4. Give Apollo path some love - DONE
+
+# Future Ideas
+# - Add Demeter event
+# - Add Dionysis event
+# - Add a mechanic around Hera
+# - Add wandering Titans in Hades
+# - Make the Greek Gods start in the Celestial or Hades plane at start of game
+
+# ---------- Required mod info ---------------
+
+icon                "spartan_kings_banner.tga"
+description         "This mod adds the custom Spartan Kings class, based on Spartan history and Greek mythology."
+
+# ---------- Sounds ----------
+
+sample 229 "/sounds/spartan_war_cry.sw2"
+
+# ---------- New Terrain ---------------
+
+selectterr		910
+spr 			"/sprites/sparta.tga"
+name 			"City State of Sparta"
+gold			3
+iron			1
+apcost			1
+citadel
+batmap 			40	#village
+ownable
+
+selectterr		911
+spr 			"/sprites/barracks.tga"
+name 			"Training Grounds"
+apcost			1
+burnable
+citadel
+nostdrec
+batmap 		    40	#village
+ownable
+
+selectterr		912
+spr 			"/sprites/temple.tga"
+name 			"Temple of Apollo"
+gold			1
+gems			1
+apcost			1
+citadel
+nostdrec
+temple
+burnable
+batmap 			31	#monastery
+ownable
+
+selectterr		913
+spr 			"/sprites/temple.tga"
+name 			"Temple of Ares"
+gold			1
+sacr			1
+apcost			1
+citadel
+nostdrec
+temple
+burnable
+batmap 			31	#monasteryn
+ownable
+
+selectterr		914
+spr 			"/sprites/temple.tga"
+name 			"Temple of Athena"
+gold			1
+bonusrelics		1
+apcost			1
+citadel
+nostdrec
+temple
+burnable
+batmap 			31	#monasteryn
+ownable
+
+selectterr		915
+spr 			"/sprites/temple.tga"
+name 			"Temple of Artemis"
+gold			1
+herbs			1
+apcost			1
+citadel
+nostdrec
+temple
+burnable
+batmap 			31	#monasteryn
+ownable
+
+selectterr      916
+spr             "/sprites/farmland.tga"
+name            "Farmland"
+gold            1
+pop             3
+apcost          1
+batmap 		    49
+burnable
+ownable
+harvest
+
+selectterr      917
+spr             "/sprites/granary.tga"
+name            "Granary"
+gold            3
+pop             5
+apcost          1
+batmap 		    49
+burnable
+ownable         
+harvest
+
+selectterr		918
+spr 			"/sprites/volcano.tga"
+name 			"Mount Etna"
+apcost			5
+mountain
+visible
+
+selectterr		919
+spr 			"/sprites/olympus.tga" #TODO improve
+name 			"Mount Olympus"
+apcost			4
+mountain
+visible
+
+#selectterr		920
+#spr "./sprites/temp.tga"
+#name "Granary of Demeter"
+#gold 10
+#apcost			1
+#batmap 		    49
+#burnable
+#ownable
+#harvest
+#snowok
+#tempimmune
+#nosnowpen
+#nevercold
+#destroyto 921
+
+#selectterr		921
+#spr "./sprites/temp.tga"
+#name "Destroyed Granary of Demeter"
+#apcost			1
+#ownable
+
+#selectterr		922
+#spr "./sprites/temp.tga"
+#name "Vineyard of Dionysis"
+#gold 10
+#apcost			1
+#burnable
+#ownable
+#harvest
+#snowok
+#tempimmune
+#nosnowpen
+#nevercold
+#destroyto 923
+
+#selectterr		923
+#spr "./sprites/temp.tga"
+#name "Destroyed Vineyard of Dionysis"
+#apcost			1
+#ownable
+
+# Terrain Groups
+selectterrgroup -1125
+setname "Temples of the Gods"
+addterr 912
+addterr 913
+addterr 914
+addterr 915
+
+selectterrgroup -1126
+setname "Spartan Settlements"
+addterr 910
+addallsettlements
+
+selectterrgroup -1127
+setname "Spartan Farms"
+addterr 916
+addterr 917
+
+
+# ---------- New Rituals ---------------
+
+# -Enchanter of the Wise-
+newritpow
+newritual       "Seek Divine Inspiration"
+descr "After reading historic tales of the goddess Athena's efforts in the Trojan War, the enchanter of the wise seeks her divine inspiration for siege weapons of the future. Perhaps they might be granted knowledge of the famed Trojan Horse..."
+terr                   -11
+level           1
+cost                           0 100
+cost                           1 25
+cost                           12 50
+summoning
+addstring            "1*Trojan Horse"
+alterloc                0
+apcost          5 # Actual AP cost: 6.
+free
+
+# -Oracle-
+newritpow
+newritual       "All Seeing Eye"
+descr "Apollo speaks through his Oracle, revealing information on a random section of the world."
+level		    1
+cost		   	15 5
+randomloc		1
+scatterscry    12
+soundfx        44 # Sound effect when the ritual is cast: luck.smp
+closewin          # Closes the ritual window after the ritual has completed.
+free
+
+newritual       "Scry for Evil"
+descr "Apollo speaks through his Oracle, revealing the location of an enemy commander."
+level		    1
+cost		   	15 15
+randomloc		3
+scryloc        10 # Scry radius 1 around target location.
+soundfx        44 # Sound effect when the ritual is cast: luck.smp
+closewin          # Closes the ritual window after the ritual has completed.
+free
+
+# -(Arch)Priest of Apollo-
+newritpow
+newritual       "Request Apollo's Patronage"
+descr "Erect a statue of Apollo and solidify Apollo's place as patron of the great city-state of Sparta. This will gain his favor and he will bless the people with greater powers. Apollo excels at ranged damage and magical utility. ^^ Target this ritual on the City State of Sparta. This cannot be cast if Sparta already has a patron god."
+level           1
+cost		    0 100
+cost		   	15 40
+chooseterrloc	910
+nomonplayerreq 
+addstring "(-)Statue of Ares"
+addstring "(-)Statue of Athena"
+addstring "(-)Statue of Artemis"
+farsummon
+addstring       "1*Statue of Apollo"
+newrit		    2
+levelup		    2
+forgetcurrit
+free
+
+newritual       "Call for Champion of Apollo"
+descr "In times of need, the great city-state of Sparta can all upon their patron to bestow upon them the power of their champion. For Apollo, that is the famous centaur, Chiron."
+level           2
+cost		   	15 160
+summoning
+addstring	    "c*Chiron"
+forgetcurrit
+free
+
+newritual "Pray to Hades for Assistance"
+descr "In desperate times, the gods of Olympus themselves may arrive on Elysium to quell the chaos. If that happens, perhaps they may be willing to give aid to a humble worshipper... if they are humble enough. The great heroes of the past have all died now, which means they reside in the realms of Hades, ready to respond to his calls. There are a limited number of heroes, though, so first come first serve."
+level		    2
+cost		   	0 200
+cost		   	1 75
+cost		   15 120
+monworldreq
+addstring "(&)God of the Underworld"
+summoning
+addstring	    "c*Hero of the Trojan War"
+addstring	    "c*Bulwark of the Achaeans & c*Friend of Achilles & c*King of Ithaca"
+addstring		"c*Slayer of Monsters"
+addstring		"c*Leader of the Argonauts & 18*Argonaut"
+addstring		"c*Son of Poseidon"
+addstring	    "c*Death Knight + 48*Fallen Hoplite"
+free
+
+newritual "Pray to Poseidon for Assistance"
+descr "In desperate times, the gods of Olympus themselves may arrive on Elysium to quell the chaos. If that happens, perhaps they may be willing to give aid to a humble worshipper... if they are humble enough. Poseidon has always had a connection to the great beasts and monsters of history. Even now, they stand ready to obey his commands."
+level		    2
+cost		   	0 250
+cost		   	1 100
+cost		   15 140
+monworldreq
+addstring "(&)God of the Ocean"
+summoning
+addstring		"c*Ancient Hydra & 18*Hydra Hatchling"
+addstring	    "4*Cyclops"
+addstring		"c*Minotaur Captain & 30*Bronze Bull"
+free
+
+newritual "Pray to Zeus for Assistance"
+descr "In desperate times, the gods of Olympus themselves may arrive on Elysium to quell the chaos. The great and glorious Zeus stands powerfully above all other gods, even bringing his own child, the famous Herakles, into their ranks. His desire for glory and power may drive him to lend aid if requested."
+level		    2
+cost		   	0 300
+cost		   	1 125
+cost		   15 160
+monworldreq
+addstring "(&)God of the Sky"
+summoning
+addstring		"c*Champion of the Gods"
+addstring		"12*Child of Nephele & 28*Thunderbird"
+addstring		"18*Champion of Storms & 8*Air Elemental"
+addstring		"50*Cloudfolk Soldier & 28*Cloudfolk Archer"
+free
+
+newritual "Wipe the World Clean"
+descr "The gods have decided to punish the unbelievers by unleashing Typhon, the father of monsters, upon Elysium."
+level		    2
+cost		   	15 400
+randomloc 		1
+nomonworldreq
+addstring "(-)Father of Monsters"
+addstring "(-)Typhon Unchained"
+farsummon
+addstring	    "c*Father of Monsters"
+apcost          2 # Actual AP cost: 3.
+forgetcurrit
+free
+
+# -(Arch)Priest of Ares-
+newritpow
+newritual       "Request Ares's Patronage"
+descr "Erect a statue of Ares and solidify Ares' place as patron of the great city-state of Sparta. This will gain his favor and he will bless the people with greater powers. Ares excels at melee combat and empowering your soldiers. ^^ Target this ritual on the City State of Sparta. This cannot be cast if Sparta already has a patron god."
+level           1
+cost		    0 100
+cost		   	4 60
+chooseterrloc	910
+nomonplayerreq 
+addstring "(-)Statue of Apollo"
+addstring "(-)Statue of Athena"
+addstring "(-)Statue of Artemis"
+farsummon
+addstring       "1*Statue of Ares"
+newrit		    2
+levelup		    2
+forgetcurrit
+free
+
+newritual       "Call for Champion of Ares"
+descr "In times of need, the great city-state of Sparta can all upon their patron to bestow upon them the power of their champion. For Ares, that is his child, the Ismenian Dragon."
+level           2
+cost		   	4 240
+summoning
+addstring	    "c*Ismenian Dragon"
+free
+
+newritual "Pray to Hades for Assistance"
+descr "In desperate times, the gods of Olympus themselves may arrive on Elysium to quell the chaos. If that happens, perhaps they may be willing to give aid to a humble worshipper... if they are humble enough. The great heroes of the past have all died now, which means they reside in the realms of Hades, ready to respond to his calls. There are a limited number of heroes, though, so first come first serve."
+level		    2
+cost		   	0 200
+cost		   	1 75
+cost		    4 180
+monworldreq
+addstring "(&)God of the Underworld"
+summoning
+addstring	    "c*Hero of the Trojan War"
+addstring	    "c*Bulwark of the Achaeans & c*Friend of Achilles & c*King of Ithaca"
+addstring		"c*Slayer of Monsters"
+addstring		"c*Leader of the Argonauts & 18*Argonaut"
+addstring		"c*Son of Poseidon"
+addstring	    "c*Death Knight + 48*Fallen Hoplite"
+free
+
+newritual "Pray to Poseidon for Assistance"
+descr "In desperate times, the gods of Olympus themselves may arrive on Elysium to quell the chaos. If that happens, perhaps they may be willing to give aid to a humble worshipper... if they are humble enough. Poseidon has always had a connection to the great beasts and monsters of history. Even now, they stand ready to obey his commands."
+level		    2
+cost		   	0 250
+cost		   	1 100
+cost		    4 210
+monworldreq
+addstring "(&)God of the Ocean"
+summoning
+addstring		"c*Ancient Hydra & 18*Hydra Hatchling"
+addstring	    "4*Cyclops"
+addstring		"c*Minotaur Captain & 30*Bronze Bull"
+free
+
+newritual "Pray to Zeus for Assistance"
+descr "In desperate times, the gods of Olympus themselves may arrive on Elysium to quell the chaos. The great and glorious Zeus stands powerfully above all other gods, even bringing his own child, the famous Herakles, into their ranks. His desire for glory and power may drive him to lend aid if requested."
+level		    2
+cost		   	0 300
+cost		   	1 125
+cost		    4 240
+monworldreq
+addstring "(&)God of the Sky"
+summoning
+addstring		"c*Champion of the Gods"
+addstring		"12*Child of Nephele & 28*Thunderbird"
+addstring		"18*Champion of Storms & 8*Air Elemental"
+addstring		"50*Cloudfolk Soldier & 28*Cloudfolk Archer"
+free
+
+newritual "Wipe the World Clean"
+descr "The gods have decided to punish the unbelievers by unleashing Typhon, the father of monsters, upon Elysium."
+level		    2
+cost		   	4 625
+randomloc 		1
+nomonworldreq
+addstring "(-)Father of Monsters"
+addstring "(-)Typhon Unchained"
+farsummon
+addstring	    "c*Father of Monsters"
+apcost          2 # Actual AP cost: 3.
+forgetcurrit
+free
+
+# -(Arch)Priest of Athena-
+newritpow
+newritual       "Request Athena's Patronage"
+descr "Erect a statue of Athena and solidify Athena's place as patron of the great city-state of Sparta. This will gain her favor and she will bless the people with greater powers. Athena excels at defense and resistances for your troops. ^^ Target this ritual on the City State of Sparta. This cannot be cast if Sparta already has a patron god."
+level           1
+cost		    0 100
+cost		   	12 30
+chooseterrloc	910
+nomonplayerreq 
+addstring "(-)Statue of Apollo"
+addstring "(-)Statue of Ares"
+addstring "(-)Statue of Artemis"
+farsummon
+addstring       "1*Statue of Athena"
+newrit		    2
+levelup		    2
+forgetcurrit
+free
+
+newritual       "Call for Champion of Athena"
+descr "In times of need, the great city-state of Sparta can all upon their patron to bestow upon them the power of their champion. For Athena, that is the Gorgon, Medusa and some of Athena's blessed enchanters."
+level           2
+cost		   	12 120
+summoning
+addstring	    "c*Gorgon & c*Enchanter of the Wise"
+forgetcurrit
+free
+
+newritual "Pray to Hades for Assistance"
+descr "In desperate times, the gods of Olympus themselves may arrive on Elysium to quell the chaos. If that happens, perhaps they may be willing to give aid to a humble worshipper... if they are humble enough. The great heroes of the past have all died now, which means they reside in the realms of Hades, ready to respond to his calls. There are a limited number of heroes, though, so first come first serve."
+level		    2
+cost		   	0 200
+cost		   	1 75
+cost		    12 90
+monworldreq
+addstring "(&)God of the Underworld"
+summoning
+addstring	    "c*Hero of the Trojan War"
+addstring	    "c*Bulwark of the Achaeans & c*Friend of Achilles & c*King of Ithaca"
+addstring		"c*Slayer of Monsters"
+addstring		"c*Leader of the Argonauts & 18*Argonaut"
+addstring		"c*Son of Poseidon"
+addstring	    "c*Death Knight + 48*Fallen Hoplite"
+free
+
+newritual "Pray to Poseidon for Assistance"
+descr "In desperate times, the gods of Olympus themselves may arrive on Elysium to quell the chaos. If that happens, perhaps they may be willing to give aid to a humble worshipper... if they are humble enough. Poseidon has always had a connection to the great beasts and monsters of history. Even now, they stand ready to obey his commands."
+level		    2
+cost		   	0 250
+cost		   	1 100
+cost		    12 105
+monworldreq
+addstring "(&)God of the Ocean"
+summoning
+addstring		"c*Ancient Hydra & 18*Hydra Hatchling"
+addstring	    "4*Cyclops"
+addstring		"c*Minotaur Captain & 30*Bronze Bull"
+free
+
+newritual "Pray to Zeus for Assistance"
+descr "In desperate times, the gods of Olympus themselves may arrive on Elysium to quell the chaos. The great and glorious Zeus stands powerfully above all other gods, even bringing his own child, the famous Herakles, into their ranks. His desire for glory and power may drive him to lend aid if requested."
+level		    2
+cost		   	0 300
+cost		   	1 125
+cost		    12 120
+monworldreq
+addstring "(&)God of the Sky"
+summoning
+addstring		"c*Champion of the Gods"
+addstring		"12*Child of Nephele & 28*Thunderbird"
+addstring		"18*Champion of Storms & 8*Air Elemental"
+addstring		"50*Cloudfolk Soldier & 28*Cloudfolk Archer"
+free
+
+newritual "Wipe the World Clean"
+descr "The gods have decided to punish the unbelievers by unleashing Typhon, the father of monsters, upon Elysium."
+level		    2
+cost		   	12 300
+randomloc 		1
+nomonworldreq
+addstring "(-)Father of Monsters"
+addstring "(-)Typhon Unchained"
+farsummon
+addstring	    "c*Father of Monsters"
+apcost          2 # Actual AP cost: 3.
+forgetcurrit
+free
+
+# -(Arch)Priest of Artemis-
+newritpow
+newritual       "Request Artemis's Patronage"
+descr "Erect a statue of Artemis and solidify Artemis' place as patron of the great city-state of Sparta. This will gain her favor and she will bless the people with greater powers. Artemis excels at large creatures and nature magic. ^^ Target this ritual on the City State of Sparta. This cannot be cast if Sparta already has a patron god."
+level           1
+cost		    0 100
+cost		   	2 150
+chooseterrloc	910
+nomonplayerreq 
+addstring "(-)Statue of Apollo"
+addstring "(-)Statue of Ares"
+addstring "(-)Statue of Athena"
+farsummon
+addstring       "1*Statue of Artemis"
+newrit		    2
+levelup		    2
+forgetcurrit
+free
+
+newritual       "Call for Champion of Artemis"
+descr "In times of need, the great city-state of Sparta can all upon their patron to bestow upon them the power of their champion. For Artemis, that is her dear hunting companion, Callisto and her famed Nemean Lions. This cannot be recast while another Callisto still exists in the game."
+level           2
+cost		   	2 600
+nomonworldreq 
+addstring "(-)Companion of Artemis"
+summoning
+addstring	    "c*Companion of Artemis & 2*Nemean Lion"
+free
+
+newritual "Pray to Hades for Assistance"
+descr "In desperate times, the gods of Olympus themselves may arrive on Elysium to quell the chaos. If that happens, perhaps they may be willing to give aid to a humble worshipper... if they are humble enough. The great heroes of the past have all died now, which means they reside in the realms of Hades, ready to respond to his calls. There are a limited number of heroes, though, so first come first serve."
+level		    2
+cost		   	0 200
+cost		   	1 75
+cost		    2 450
+monworldreq
+addstring "(&)God of the Underworld"
+summoning
+addstring	    "c*Hero of the Trojan War"
+addstring	    "c*Bulwark of the Achaeans & c*Friend of Achilles & c*King of Ithaca"
+addstring		"c*Slayer of Monsters"
+addstring		"c*Leader of the Argonauts & 18*Argonaut"
+addstring		"c*Son of Poseidon"
+addstring	    "c*Death Knight + 48*Fallen Hoplite"
+free
+
+newritual "Pray to Poseidon for Assistance"
+descr "In desperate times, the gods of Olympus themselves may arrive on Elysium to quell the chaos. If that happens, perhaps they may be willing to give aid to a humble worshipper... if they are humble enough. Poseidon has always had a connection to the great beasts and monsters of history. Even now, they stand ready to obey his commands."
+level		    2
+cost		   	0 250
+cost		   	1 100
+cost		    2 525
+monworldreq
+addstring "(&)God of the Ocean"
+summoning
+addstring		"c*Ancient Hydra & 18*Hydra Hatchling"
+addstring	    "4*Cyclops"
+addstring		"c*Minotaur Captain & 30*Bronze Bull"
+free
+
+newritual "Pray to Zeus for Assistance"
+descr "In desperate times, the gods of Olympus themselves may arrive on Elysium to quell the chaos. The great and glorious Zeus stands powerfully above all other gods, even bringing his own child, the famous Herakles, into their ranks. His desire for glory and power may drive him to lend aid if requested."
+level		    2
+cost		   	0 300
+cost		   	1 125
+cost		    2 600
+monworldreq
+addstring "(&)God of the Sky"
+summoning
+addstring		"c*Champion of the Gods"
+addstring		"12*Child of Nephele & 28*Thunderbird"
+addstring		"18*Champion of Storms & 8*Air Elemental"
+addstring		"50*Cloudfolk Soldier & 28*Cloudfolk Archer"
+free
+
+newritual "Wipe the World Clean"
+descr "The gods have decided to punish the unbelievers by unleashing Typhon, the father of monsters, upon Elysium."
+level		    2
+cost		   	2 1500
+randomloc 		1
+nomonworldreq
+addstring "(-)Father of Monsters"
+addstring "(-)Typhon Unchained"
+farsummon
+addstring	    "c*Father of Monsters"
+apcost          2 # Actual AP cost: 3.
+forgetcurrit
+free
+
+# -Steward King-
+newritpow
+
+newritual     	"Lesser Ritual of Mastery" 
+descr "This ritual grants the caster a new first level ritual."
+level                  1
+cost		 	0 40
+newrit                 1 # Caster will learn a new ritual of level 1.
+soundfx               57 # Sound effect when the ritual is cast: orchhit.smp (Summoning).
+free                     
+
+newritual	    "Ritual of Mastery"
+descr "This ritual grants the caster a new second level ritual."
+level		    1
+cost		    0 70
+cost		    1 20
+free
+newrit		    2
+levelup		    2
+soundfx		    57
+
+# ADD SOME MORE TIER 1 RITUALS
+newritual     "Cultivate Farmland"
+descr "In order to feed the ever growing Spartan army, the Steward King orders the Helots to cultivate new farmland. Must be within 3 tiles of a granary or other Spartan farmland tile."
+level                 	1
+cost					0 20
+planereq				0
+terr                 	-103 # Plain-like terrains
+alterloc             	916  # Farmland
+nearby3req		        -1127
+soundfx               	57
+apcost 					2
+free
+
+newritual     "Construct Granary"
+descr "As Sparta continues to grow and their farmland continues to expand, the Steward King orders the construction of a granary to store wheat and increase the food supply. Must be at least 1 tile away from another granary."
+level                   1
+cost                    0 45
+planereq                0
+terr                    916
+alterloc                917
+nonearby1req            917
+soundfx                 57
+apcost                  2
+
+newritual     "Found Mine"
+descr "With the growing need for more metal, the Steward King orders the construction of a new mine. Must not be within 3 tiles of another iron mine."
+level                 	1
+cost              		0 60
+cost					1 10
+planereq				0
+terr                 	12 # Mountain
+#aiwhere					12
+alterloc             	14 # Iron Mine
+nonearby3req			14
+soundfx               	57
+apcost                  2
+
+# ADD SOME MORE TIER 2 RITUALS
+newritual       "Summon the Royal Guard"
+descr "The kings' royal guard stand at the ready to protect and escort them at all costs. These elite Spartan hoplites are hand picked by the kings and will gladly die by their side in battle."
+level           2
+cost		    0 50
+cost		    1 30
+terr            910
+summoning
+addstring       "6*Spartan Royal Guard"
+
+newritual       "Host Pankration Competition"
+descr "The Steward King organizes the hosting of the glorious sporting event, the Pankration. This empty-hand submission sport is a truly spectacular sight to behold combining boxing with wrestling. The champion of the games will be crowned 'Champion of the Pankration' and have the honor of fighting for Sparta on their front lines."
+level           2
+cost		    0 75
+terr            910
+summoning
+addstring       "c*Champion of the Pankration"
+apcost          5
+
+newritual "Erect Temple of Apollo"
+descr "The worship of the gods is paramount! The Steward King orders the construction of a temple to Apollo, the god of the sun. There can only be one per god and it must be built within 3 tiles of a Spartan Settlement and at least 7 tiles away from another temple. This temple gives access to one Apollo recruit and allows you to ask for his patronage."
+level		    2
+cost		   	0 100
+cost		   	1 50
+terr                 	-103 # Plain-like terrains
+apcost          2
+soundfx 		57
+nonearby7req    -1125 #Can't be near another temple
+nearby3req      -1126 #Has to be near a Spartan Settlement
+nonearby99req 	912
+alterloc		912
+summoning
+addstring	    "c*Priest of Apollo"
+free
+
+newritual "Erect Temple of Ares"
+descr "The worship of the gods is paramount! The Steward King orders the construction of a temple to Ares, the god of war. There can only be one per god and it must be built within 3 tiles of a Spartan Settlement and at least 7 tiles away from another temple. This temple gives access to one Ares recruit and allows you to ask for his patronage."
+level		    2
+cost		   	0 100
+cost		   	1 50
+terr                 	-103 # Plain-like terrains
+apcost          2
+soundfx 		57
+nonearby7req    -1125 #Can't be near another temple
+nearby3req      -1126 #Has to be near a Spartan Settlement
+nonearby99req 	913
+alterloc		913
+summoning
+addstring	    "c*Priest of Ares"
+free
+
+newritual "Erect Temple of Athena"
+descr "The worship of the gods is paramount! The Steward King orders the construction of a temple to Athena, the goddes of war and wisdom. There can only be one per god and it must be built within 3 tiles of a Spartan Settlement and at least 7 tiles away from another temple. This temple gives access to one Athena recruit and allows you to ask for her patronage."
+level		    2
+cost		   	0 100
+cost		   	1 50
+terr                 	-103 # Plain-like terrains
+apcost          2
+soundfx 		57
+nonearby7req    -1125 #Can't be near another temple
+nearby3req      -1126 #Has to be near a Spartan Settlement
+nonearby99req 	914
+alterloc		914
+summoning
+addstring	    "c*Priest of Athena"
+free
+
+newritual "Erect Temple of Artemis"
+descr "The worship of the gods is paramount! The Steward King orders the construction of a temple to Artemis, the goddes of the hunt. There can only be one per god and it must be built within 3 tiles of a Spartan Settlement and at least 7 tiles away from another temple. This temple gives access to one Artemis recruit and allows you to ask for her patronage."
+level		    2
+cost		   	0 100
+cost		   	1 50
+terr                 	-103 # Plain-like terrains
+apcost          2
+soundfx 		57
+nonearby7req    -1125 #Can't be near another temple
+nearby3req      -1126 #Has to be near a Spartan Settlement
+nonearby99req 	915
+alterloc		915
+summoning
+addstring	    "c*Priest of Artemis"
+free
+
+
+# -Military King- 
+newritpow
+
+newritual     	"Lesser Ritual of Mastery" 
+descr "This ritual grants the caster a new first level ritual."
+level                  1
+cost		 	0 40
+newrit                 1 # Caster will learn a new ritual of level 1.
+soundfx               57 # Sound effect when the ritual is cast: orchhit.smp (Summoning).
+free                     # Always start with this ritual in addition to the others.
+
+newritual	    "Ritual of Mastery"
+descr "This ritual grants the caster a new second level ritual."
+level		    1
+cost		    0 50
+cost		    1 30
+free
+newrit		    2
+levelup		    2
+soundfx		    57
+
+newritual       "Form Enomotia"
+descr "The Military King of Sparta reorganizes and refits four Hoplite Files into an Enomotia. Requires an army of ONLY 28 Hoplites and 4 Hoplite File Leaders. Don't use this ritual with an army of more that just those units."
+free
+level           1
+cost		 	0 10
+minmonreq       28 # The monsters in addstring "(&)..." must be at least 'min' in number at current location.
+addstring       "(&)Spartan Hoplite"
+minmonreq       4 # The monsters in addstring "(&)..." must be at least 'min' in number at current location.
+addstring       "(&)Hoplite File Leader"
+nearby1req      <ter nbr> # Put barracks, also figure out if possible to do 0 req
+promotion       28 #Promote existing units to another monster type. Use addstring to add promotion pairs, the first string sets a source unit and the second one the destination units. Multiple of these pairs can be added to a single ritual.
+addstring       "Spartan Hoplite"
+addstring       "Enomotia"
+promotion       4
+addstring       "Hoplite File Leader"
+addstring       "Enomotiarch"
+promotion       3
+addstring       "Enomotiarch"
+addstring       "Enomotia"
+
+newritual       "Form Pentekostia"
+descr "The Military King of Sparta reorganizes and refits four Enomotias into a Pentekostia. Requires an army of ONLY 124 Enomotias and 4 Enomotiarchs. Don't use this ritual with an army of more that just those units."
+free
+level           1
+cost		 	0 40
+minmonreq       124 # The monsters in addstring "(&)..." must be at least 'min' in number at current location.
+addstring       "(&)Enomotia" # Maybe also add straight Hoplites
+minmonreq       4 # The monsters in addstring "(&)..." must be at least 'min' in number at current location.
+addstring       "(&)Enomotiarch"
+nearby1req      <ter nbr> # Put barracks, also figure out if possible to do 0 req
+promotion       124 #Promote existing units to another monster type. Use addstring to add promotion pairs, the first string sets a source unit and the second one the destination units. Multiple of these pairs can be added to a single ritual.
+addstring       "Enomotia"
+addstring       "Pentekostia"
+promotion       4
+addstring       "Enomotiarch"
+addstring       "Pentekosiarchos"
+promotion       3
+addstring       "Pentekosiarchos"
+addstring       "Pentekostia"
+
+newritual       "Form Lochos"
+descr "The Military King of Sparta reorganizes and refits four Pentekostia into a Lochos. Requires an army of ONLY 508 Pentekostia and 4 Pentekosiarchos. Don't use this ritual with an army of more that just those units."
+free
+level           1
+cost		 	0 160
+minmonreq       508 # The monsters in addstring "(&)..." must be at least 'min' in number at current location.
+addstring       "(&)Pentekostia"
+minmonreq       4 # The monsters in addstring "(&)..." must be at least 'min' in number at current location.
+addstring       "(&)Pentekosiarchos"
+nearby1req      <ter nbr> # Put barracks, also figure out if possible to do 0 req
+promotion       508 #Promote existing units to another monster type. Use addstring to add promotion pairs, the first string sets a source unit and the second one the destination units. Multiple of these pairs can be added to a single ritual.
+addstring       "Pentekostia"
+addstring       "Lochos"
+promotion       4
+addstring       "Pentekosiarchos"
+addstring       "Lochagoi"
+promotion       3
+addstring       "Lochagoi"
+addstring       "Lochos"
+
+newritual       "Summon the Royal Guard"
+descr "The kings' royal guard stand at the ready to protect and escort them at all costs. These elite Spartan hoplites are hand picked by the kings and will gladly die by their side in battle."
+level           2
+cost		    0 50
+cost		    1 30
+terr            910
+summoning
+addstring       "6*Spartan Royal Guard"
+
+newritual       "Construct Training Grounds"
+descr "A properly managed training ground is the foundation of a functional military. To the Spartans, it is their academy, instructing them in the art of war. This is where young men will go to become Spartan Hoplites and prove themselves in battle. Only one may be built per town or city (within 3 tiles) and they cannot be within 7 tiles of other Training Grounds."
+free
+level           2
+cost		    0 50
+cost		    1 20
+apcost          2
+soundfx         57
+terr           -71 	# Flat terrains
+nearby3req     -28
+nonearby7req    911
+alterloc        911
+
+newritual       "Conscript Helots"
+descr "When the kings need more men to throw at the enemy, they call upon their enslaved population. Though not necessarily trained in combat, Helots will fight for your cause because...well, you told them to. It is an honor to give one's life for the cause of the Spartan Kings. There's no way forcing them to die for a foreign power could lead to violent backlash..."
+level           2
+cost		    0 30
+terr            -1126 #Has to be in a Spartan Settlement
+summoning
+addstring       "1d4+8*Helot Skirmisher & 1d2+6*Helot Slinger"
+apcost          2
+
+
+# ---------- New Weapons ---------------
+
+# Some sort of Javelin ability with the spear? maybe one use.
+newweapon     "Dory Spear"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 6
+dmgtype              3 # Pierce
+dmg                  4 # Base damage 
+aoe                  0 # Area: Single target
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+sound                1 # spear.smp 
+
+newweapon     "Cursed Dory Spear"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 6
+dmgtype              3 # Pierce
+dmg                  4 # Base damage 
+aoe                  0 # Area: Single target
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+sound                1 # spear.smp 
+next
+nextdmg			  	 2
+
+newweapon 	"Cursed Wound"
+dmgtype 12
+
+newweapon     "Lead-tipped Spear"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 8
+dmgtype              3 # Pierce
+dmg                 17 # Base damage 
+aoe                  0 # Area: Single target
+sound                1 # spear.smp 
+an
+next
+nextdmg			   128
+
+newweapon 	"Bleed Through"
+dmgtype 12
+look	41
+
+newweapon     "Throw Dory Spear"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                3
+init                 2
+dmgtype              3 # Pierce
+dmg                  6 # Base damage 
+aoe                  0 # Area: Single target
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+flymode              1 # Missile sprite, one for each strike or square hit.
+flylook              1
+flysound            19 # javelin.smp
+oneshot
+
+newweapon     "Periphetes' Club"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 4
+dmgtype              2 # Blunt
+dmg                  7 # Base damage 
+aoe                  0 # Area: Single target
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+sound               11 # heavy_blow.smp 
+fullsweep
+shieldneg
+onlyenemy
+
+newweapon     "Bronze Javelin"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                4
+init                 2
+dmgtype              3 # Pierce
+dmg                  5 # Base damage 
+aoe                  0 # Area: Single target
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+flymode              1 # Missile sprite, one for each strike or square hit.
+flylook              1
+flysound            19 # javelin.smp
+
+newweapon     "Xiphos"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 5
+dmgtype              1 # Slash
+dmg                  5 # Base damage 
+aoe                  0 # Area: Single target
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+sound                8 # sword.smp 
+
+newweapon     "Kopis"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 4
+dmgtype              1 # Slash
+dmg                  4 # Base damage 
+aoe                  0 # Area: Single target
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+sound                8 # sword.smp 
+
+newweapon     "Poisioned Kopis"
+range                1
+init                 4
+dmgtype              1 # Slash
+dmg                  4 # Base damage 
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+sound                8 # sword.smp 
+next
+nextdmg 			12
+
+newweapon 	  "Poison of Achlys"
+dmgtype 			 9
+an
+
+newweapon     "Sarissa"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                2
+init                 2
+dmgtype              3 # Pierce
+dmg                  5 # Base damage 
+aoe                  0 # Area: Single target
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+sound                1 # spear.smp 
+
+newweapon     "Cursed Xiphos"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 4
+dmgtype              1 # Slash
+dmg                  5 # Base damage 
+aoe                  0 # Area: Single target
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+sound                8 # sword.smp 
+next
+nextdmg			  	 2
+
+newweapon 	"Cursed Cut"
+dmgtype 12
+
+newweapon     "Shield Bash"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 2
+dmgtype              2 # Blunt
+dmg                  3 # Base damage 
+aoe                  0 # Area: Single target
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+sound               11 # heavy_blow.smp 
+shieldneg
+strresist
+next
+nextdmg			  	 64
+
+newweapon 	"Shield Stun"
+dmgtype 12
+
+newweapon     "Grapple"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 6
+dmgtype              2 # Blunt
+dmg                  4 # Base damage 
+aoe                  0 # Area: Single target
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+sound               11 # heavy_blow.smp 
+shieldneg
+strresist
+next
+nextdmg			   256
+
+newweapon 	"Pinned Down"
+dmgtype 			12
+aoe		 			 0
+next
+nextdmg		2147483648 # Afraid
+
+newweapon 	"Intimidated"
+dmgtype 12
+
+newweapon       "Batter"
+trgrank             1
+range               1
+init                5
+dmgtype             2
+dmg                 10 # Might be way to strong
+aoe                 0
+mundane
+sound               11 # Heavy Blow
+reload1
+strresist
+stonekill
+wallkill
+
+newweapon     "Spear Charge"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 5
+dmgtype              3 # Pierce
+dmg                  8 # Base damage 
+aoe                  0 # Area: Single target
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+sound               11 # heavy_blow.smp 
+
+newweapon	"Magiko Velos"
+trgrank              8  # Target: a rear enemy
+range               12
+init                 2
+dmgtype              2 # Blunt.
+dmg                  6 # Base damage (added to dmg value where this weapon is used).
+aoe                  0 # Area: Single target.
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+arrow                  # Can be negated by air shield.
+rangepen               # Does half damage if distance >= half range.
+lob
+reload1
+mundane
+yellow
+flymode              1 
+flylook            	 0
+sound     			40
+onlyenemy
+nextalways
+nextdmg    			15
+
+newweapon "Magiko Ekrixi"
+dmgtype 			 7
+aoe 			     6
+look 			   152
+onlyenemy
+yellow
+
+newweapon	"Arrow of Rot"
+trgrank              9 # Target: any enemy in range.
+range                7
+init                 2
+dmgtype              3 # Pierce.
+dmg                  5 # Base damage (added to dmg value where this weapon is used).
+aoe                  0 # Area: Single target.
+mundane                # Non-magic. Ethereal units have a 75% chance to be unaffected.
+arrow                  # Can be negated by air shield.
+rangepen               # Does half damage if distance >= half range.
+lob
+drain
+flymode              1 
+flylook            	 0
+flysound            14 # bow.smp
+next
+nextdmg              1 # Diseased
+
+newweapon 	"Infected Arrowhead"
+dmgtype 			12
+aoe					 1
+look			   144
+sound 				66
+
+newweapon	"Arrow of Light"
+trgrank              9 # Target: any enemy in range.
+range                6
+init                 2
+dmgtype              7 # Magic
+dmg                  4 # Base damage (added to dmg value where this weapon is used).
+aoe                  0 # Area: Single target.
+arrow                  # Can be negated by air shield.
+rangepen               # Does half damage if distance >= half range.
+lob
+yellow
+flymode              8 
+flylook            	73
+flysound           104 # spell flysound.smp
+next
+nextdmg       67108864 # Blindness
+
+newweapon 	"Blinding Light"
+dmgtype 			12
+aoe					 0
+look				19
+sound 				68
+an
+mr
+yellow
+
+newweapon 	"Divinely Guided Arrow"
+trgrank              8 # Target: a rear enemy
+range                5
+init                 2
+dmgtype              3 # Pierce.
+dmg                  3 # Base damage (added to dmg value where this weapon is used).
+aoe                  0 # Area: Single target.
+lob
+mundane
+an
+flymode              1 
+flylook            	 0
+flysound            14 # bow.smp
+next
+nextdmg 			 2
+
+newweapon 	"Curse of Apollo"
+dmgtype 12
+an
+next
+nextdmg 		   128
+
+newweapon 	"Bleed of Apollo"
+dmgtype 12
+an
+next
+nextdmg 	 536870912
+
+newweapon 	"Weakness of Apollo"
+dmgtype 12
+an
+
+newweapon	"Clawing Roots"
+trgrank              9
+range               10
+init                 1
+dmgtype              2
+dmg                  4 # Base damage (added to dmg value where this weapon is used).
+aoe                  0 
+sound			   104 
+look			   199 # Entangle (fly)
+tree
+hardmr
+next
+nextdmg			   512 # Entanglement
+
+newweapon 	"Trapped in Roots"
+dmgtype 			12
+aoe					 0
+look			   198
+sound 				31
+
+newweapon	"Divine Protection"
+trgrank             -9 # Target: any ally in range.
+range                8
+init                 1
+dmgtype             13
+dmg                  0 # Base damage (added to dmg value where this weapon is used).
+aoe                  3 
+sound			   104 
+look			   176 # Sunlight
+next
+nextdmg			   128 # Luck
+
+newweapon 	"Blessing of Apollo"
+dmgtype 			13
+aoe					 0
+look			   181
+sound 				29 # blessing.smp
+
+newweapon	"Invoke Battle Rage"
+trgrank             -9 # Target: any ally in range.
+range               12
+init                 1
+dmgtype             13
+dmg                  0 # Base damage (added to dmg value where this weapon is used).
+aoe                  4 
+sound			   104 
+look			   105 # Blood Summon (line)
+onlyfriend
+next
+nextdmg			 32768 # Gone Berserk
+
+newweapon 	"Berserker Rage"
+dmgtype 			13
+aoe					 0
+look			   106 # Blood Summon Circle
+sound 				40
+next
+nextdmg			   512 # Strength
+
+newweapon 	"Strength of War"
+dmgtype 			13
+aoe					 0
+
+newweapon	"Athena's Grace"
+trgrank              0 # Target: any ally in range.
+range                1
+init                 1
+dmgtype             13
+dmg                  0
+aoe                  6
+#sound			   104
+look			   156 # White Dust
+next
+nextdmg			262144 # Pierce Resistance
+
+newweapon 	"Pierce Res"
+dmgtype 			13
+aoe					 0
+look			    51 # Golden Flares
+next
+nextdmg			524288 # Slash Resistance
+
+newweapon 	"Slash Res"
+dmgtype 			13
+aoe					 0
+next
+nextdmg		   1048576 # Blunt Resistance
+
+newweapon 	"Blunt Res"
+dmgtype 			13
+aoe					 0
+
+newweapon	"Postmortal Bite"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 2
+dmgtype              7 # Magic
+dmg                  2 # Base damage 
+aoe                  0 # Area: Single target
+sound               18 
+yellow
+
+newweapon   "Mare's Bite"
+trgrank             1
+range               1
+dmgtype             3
+init                3
+dmg                 7
+aoe                 0
+sound               32
+drain
+mundane
+stone
+soft
+next
+nextdmg              1 # Diseased
+
+newweapon 	"Infected Bite"
+dmgtype 			12
+
+newweapon   "Ismenian Bite"
+trgrank             1
+range               1
+init                4
+dmgtype             3
+dmg                 20
+aoe                 0
+sound               32
+an
+mundane
+poison
+next
+nextdmg             4
+
+newweapon   "Ismenian Poison"
+dmgtype             12
+
+newweapon   "Constrict"
+trgrank             1
+range               1
+init                3
+dmgtype             20
+dmg                 10
+aoe                 3
+sound               40
+mundane
+an
+shieldneg
+strresist
+onlyenemy
+
+newweapon   "Stymphalian Feathers"
+trgrank             1
+range               4
+init                3
+dmgtype             3
+dmg                 5 #Dunno
+aoe                 0
+sound               19 #Javelin
+flymode             1
+flylook             35 #Spike
+#nostr?
+arrow
+mundane
+lob
+rangepen
+scatter
+
+newweapon   "Bronze Beak"
+trgrank             1
+range               1
+init                2
+dmgtype             1
+dmg                 7 #Dunno
+aoe                 0
+sound               32
+drain #Maybe
+mundane
+#stone?
+
+newweapon   "Boar Charge"
+trgrank             1
+range               1
+init                6
+dmgtype             3
+dmg                 12
+aoe                 4005
+sound               11
+oneshot
+mundane
+
+newweapon   "Tusk Sweep"
+trgrank             1
+range               1
+init                3
+dmgtype             1
+dmg                 7
+aoe                 0
+sound               105 
+mundane
+sweep
+
+newweapon   "Breathe Fire"
+trgrank             1
+range               3
+init                7
+dmgtype             4
+dmg                 8
+aoe                 2005
+flymode 			8
+flylook 			95
+flysound 			16
+sound               16
+oneshot
+
+newweapon   "Spew Slag Shard"
+trgrank 			9
+range 			    4
+init 				1
+dmgtype 			3
+dmg 			    9
+flymode    			1
+flylook   		   34
+flysound  		  104
+mundane
+next
+nextdmg           128
+
+newweapon "Slag Bleed"
+dmgtype 			12
+
+newweapon   "Magma Boulder"
+trgrank 			9
+range 			   16
+init 				1
+dmgtype 			2
+dmg 			   20
+flymode    			1
+flylook   		   32
+flysound  		   15
+an
+scatter
+mundane
+lob
+wallkill
+reload3
+nextalways
+nextdmg    			18
+
+newweapon   "Magma Explosion"
+dmgtype 			 4
+aoe 			     8
+look 			    68
+sound               16
+
+newweapon   "Summon Spartan Hoplite"
+trgrank             0
+range               5
+init                2
+dmgtype             18
+dmg                 0
+aoe                 20
+oneshot
+
+newweapon   "Ambush"
+trgrank            -9
+range               6
+init                1
+dmgtype            13
+dmg                 0
+aoe                 0
+next
+nextdmg			  128 # Pierce Resistance
+
+newweapon   "Surprise"
+dmgtype 		   13
+
+newweapon   "War Cry"
+trgrank             9
+range               1
+init                8
+dmgtype             8
+dmg                 1
+aoe               997
+look 			   27
+sound             114 #TODO make 229 sound sample not awful
+onlyenemy
+oneshot
+
+newweapon     "Hades's Bident"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 6
+dmgtype              3 # Pierce
+dmg                  12 # Base damage 
+aoe                  0 # Area: Single target
+sound                1 # spear.smp 
+
+newweapon     "Trident of the Depths"
+trgrank              1 # Target: front enemy (any enemy in range, preferring front-most)
+range                1
+init                 7
+dmgtype              3 # Pierce
+dmg                  15 # Base damage 
+aoe                  0 # Area: Single target
+sound                1 # spear.smp 
+
+newweapon 		"Divine Bow"
+trgrank              9 # Target: any enemy in range.
+range               18
+init                 2
+dmgtype              7 # Magic.
+dmg                 10 # Base damage (added to dmg value where this weapon is used).
+aoe                  0 # Area: Single target.
+lob
+flymode              1 
+flylook            	 0
+flysound            14 # bow.smp
+onlyenemy
+next
+nextdmg              8
+
+newweapon 		"Radiating Blast"
+dmgtype 			 7
+aoe				  9308
+look				16  #28
+sound 				40
+an
+hardmr
+onlyenemy
+
+newweapon 		"Blessed Chord"
+trgrank             -9 # Target: any ally in range.
+range                8
+init                 1
+dmgtype              7 # Magic.
+dmg                  0 # Base damage (added to dmg value where this weapon is used).
+aoe               3010 # Cone, xx squares.
+flymode              2 
+flylook            192
+flysound            29 # blessing.smp
+onlyfriend
+nextalways
+nextdmg             64
+
+newweapon 		"Radiating Blast"
+dmgtype 			13
+
+newweapon 		"Deceptive Lullaby"
+trgrank              9 # Target: any enemy in range.
+range                6
+init                 1
+dmgtype              7 # Magic.
+dmg                  0 # Base damage (added to dmg value where this weapon is used).
+aoe               2012 # Narrow cone, xx squares.
+flymode              2 
+flylook            228
+flysound            97 # sleep.smp
+onlyenemy
+nextalways
+nextdmg              8
+
+newweapon 		"Sleepy Sleep"
+dmgtype 			12
+hardmr
+onlyenemy
+
+# ---------- Magic Items --------------
+
+newitem "The Aegis"
+descr "A mythical shield crafted in the forge of Hephaestus for the mighty god of thunder, Zeus, and often lent to Athena and her chosen."
+spr "/sprites/aegis_item.tga"
+rarity 2
+type 7 
+armor 2
+protection 1
+mr 4
+morale 4
+holy
+largeshield
+
+newitem "Zeus's Lightning Bolt"
+spr "/sprites/zeus_item.tga"
+rarity 3
+type 1
+combatspell 1 "Lightning Storm"
+descr ""
+	
+
+#newitem "Tidal Wave in a Bottle"
+#spr ""
+#type 1
+#itemwep "Poseidon Weapon"
+
+#newitem "Portal to the Underworld"
+#spr ""
+#type 1
+#itemwep "Hades Weapon"
+
+#newitem "Helmet of Athena"
+#spr ""
+#type 3
+
+#newitem "Hermes Boots"
+#spr ""
+#type 3
+
+
+# ---------- New Units ---------------
+
+# -Basic Recruitment-
+
+# Base unit, can purchase their freedom giving you money, removing them(?)
+# Not passive
+newmonster          "Helot Skirmisher"
+descr "Once proud, independant citizens of their own city states, these helots are now merely serfs or slaves for the greater good of Sparta. Called upon to serve during wartime, these helots fight with the hope of earning their freedom."
+spr1 "/sprites/helot1.tga"
+spr2 "/sprites/helot2.tga"
+armor                          0 # Armor.
+hp                             4 # Hit Points.
+str                            4 # Strength.
+mor                            3 # Morale.
+mr                             4 # Magic Resistance.
+rank                           1 # Front rank.
+meleeweapon                   -1 "Dory Spear"
+human
+
+newmonster          "Helot Slinger"
+descr "Once proud, independant citizens of their own city states, these helots are now merely serfs or slaves for the greater good of Sparta. Called upon to serve during wartime, these helots fight with the hope of earning their freedom."
+spr1 "/sprites/helot_slinger1.tga"
+spr2 "/sprites/helot_slinger2.tga"
+armor                          0 # Armor.
+hp                             4 # Hit Points.
+str                            3 # Strength.
+mor                            3 # Morale.
+mr                             4 # Magic Resistance.
+rank                           0 # Mid rank.
+rangedweapon                   0 "Sling"
+meleeweapon                   -1 "Dagger"
+human
+
+newmonster          "Spartan Youth"
+descr "From the age of 7 years old, these youth have been put through rigorous mental and physical training to craft them into the ultimate fighting force. Now at the age of hēbōntes (20-29), these spartan youth seek to prove themselves and join the hoplites."
+spr1 "/sprites/youth1.tga"
+spr2 "/sprites/youth2.tga"
+armor                          0 # Armor.
+hp                             6 # Hit Points.
+str                            4 # Strength.
+mor                            5 # Morale.
+mr                             4 # Magic Resistance.
+rank                           1 # Front rank.
+meleeweapon                    0 "Dory Spear"
+largeshield
+human
+battlefast
+
+newmonster          "Spartan Hoplite"
+descr "Having been raised purely for war, a single spartan hoplite is a force to be reckoned with, even against the monsters of Elysium. Unwavering in their duty, these hoplites are often organized into a file, lead by a single hoplite file leader."
+spr1 "/sprites/hoplite1.tga"
+spr2 "/sprites/hoplite2.tga"
+armor                          2 # Armor.
+hp                             7 # Hit Points.
+str                            4 # Strength.
+mor                            6 # Morale.
+mr                             4 # Magic Resistance.
+rank                           1 # Front rank.
+meleeweapon                    0 "Dory Spear"
+meleeweapon                    0 "Xiphos"
+rangedweapon                   0 "Throw Dory Spear"
+human
+largeshield
+berserker
+affres						   25
+
+# Leads a file of 7 other Hoplites
+newmonster          "Hoplite File Leader"
+copystats			"Spartan Hoplite"
+descr "Having proven himself in battle, this hoplite has been promoted to lead a file of seven other hoplites. Whether they are all still breathing is another matter, but a full hoplite file is truly a fearsome force led by these tried and tested soldiers."
+spr1 "/sprites/hoplite1_leader.tga"
+spr2 "/sprites/hoplite2_leader.tga"
+frontpos
+hp				   8
+str			       5 # Strength
+mor			       7 # Morale
+localleadership	   2 # Morale given
+nametype                       7 # Greek Male
+allitemslots
+
+
+newmonster          "Enomotia"
+copystats			"Spartan Hoplite"
+descr "An Enomotia consists of 31 of these troops and one Enomotiarch to form this fighting unit. As Sparta spreads across Elysium, the need for structure and order rises. These troops have survived enough battle to see this spread and continue to fight for the glory of Sparta."
+spr1 "/sprites/hoplite1_grey.tga"
+spr2 "/sprites/hoplite2_grey.tga"
+armor				3
+hp				    8
+str                 5
+mor                 7
+noleader
+affres				50
+
+# Leads an Enomotia of 31 other Hoplites
+newmonster          "Enomotiarch"
+copystats			"Hoplite File Leader"
+descr "Tasked to lead 31 other hoplites, this Enomotiarch leads his Enomotia at the head. While given leave to roam and conquer as he sees fit, he and his unit are always under the command of the Kings of Sparta."
+spr1 "/sprites/hoplite1_grey_leader.tga"
+spr2 "/sprites/hoplite2_grey_leader.tga"
+armor				3
+hp				    9
+str                 6
+mor                 8
+localleadership     6
+#semistupid
+#aggressive
+#wander              18
+#wanderattack		-2
+nametype                       7 # Greek Male
+allitemslots
+affres				50
+
+
+newmonster          "Pentekostia"
+copystats			"Spartan Hoplite"
+descr "A Pentekostia consits of 127 of these troops and one Pentekosiarchos to form this fighting unit. This large force of skilled and battle hardened troops are a terrifying sight for any of the planes of Elysium."
+spr1 "/sprites/hoplite1_black.tga"
+spr2 "/sprites/hoplite2_black.tga"
+armor				4
+hp				    9
+str                 6
+mor                 8
+noleader
+affres				75
+
+# Leads a Pentekostia of 127 other Hoplites
+newmonster          "Pentekosiarchos"
+copystats			"Enomotiarch"
+descr "Tasked with leading 127 other hoplites, this Pentekosiarchos leads his Pentekostia at the head. With a larger force comes more opportunity to spread the might of Sparta, but this man will always heed to command of his kings."
+spr1 "/sprites/hoplite1_black_leader.tga"
+spr2 "/sprites/hoplite2_black_leader.tga"
+armor				4
+hp				    10
+str                 7
+mor                 9
+localleadership     12
+nametype                       7 # Greek Male
+allitemslots
+affres				75
+
+
+newmonster          "Lochos"
+copystats			"Spartan Hoplite"
+descr "With 511 of these troops being lead by a Lochagoi, this fighting force seems unstoppable, regardless of the might that any other force can field on the plains of Elysium. This Lochos will surely spread the influence of Sparta unopposed."
+spr1 "/sprites/hoplite1_white.tga"
+spr2 "/sprites/hoplite2_white.tga"
+armor				5
+hp				   10
+str                 7
+mor                 9
+noleader
+affres				100
+
+# Leads a Lochos of 511 other Hoplites
+newmonster          "Lochagoi"
+copystats			"Pentekosiarchos"
+descr "Tasked with leading 511 other hoplites, this Lochagoi leads his Lochos at the head. Having the honor of leading the largest Spartan army ever fielded in Elysium, the Lochagoi will bring all of Elysium under the rule of the two kings."
+spr1 "/sprites/hoplite1_white_leader.tga"
+spr2 "/sprites/hoplite2_white_leader.tga"
+armor				5
+hp				    11
+str                 8
+mor                 10
+localleadership     15
+nametype                       7 # Greek Male
+allitemslots
+affres				100
+
+
+# -Special Recruitment-
+newmonster          "Perioikoi Hoplite"
+descr "Hired from the free, non-citizens around Sparta, the Perioikoi fight to defend what little freedoms they are granted by Sparta. While not as well trained as their Spartan counterparts, they certainly should not be taken lightly."
+spr1 "/sprites/perioikoi1.tga"
+spr2 "/sprites/perioikoi2.tga"
+armor               1
+hp                  6
+str              	4
+mr                  3
+mor                 4
+rank               	1
+meleeweapon         0 "Dory Spear"
+human
+largeshield
+
+newmonster          "Perioikoi Phalangitai"
+descr "Hired from the free, non-citizens around Sparta, the Perioikoi fight to defend what little freedoms they are granted by Sparta. While not as well trained as their Spartan counterparts, they certainly should not be taken lightly."
+spr1 "/sprites/p_phalanx1.tga"
+spr2 "/sprites/p_phalanx2.tga"
+armor               0
+hp                  7
+str              	4
+mr                  3
+mor                 4
+rank               	1
+meleeweapon         0 "Sarissa"
+human
+shield
+rearpos
+
+newmonster          "Perioikoi Spear"
+descr "Hired from the free, non-citizens around Sparta, the Perioikoi fight to defend what little freedoms they are granted by Sparta. While not as well trained as their Spartan counterparts, they certainly should not be taken lightly."
+spr1 "/sprites/p_spears1.tga"
+spr2 "/sprites/p_spears2.tga"
+armor               1
+hp                  5
+str              	4
+mr                  3
+mor                 4
+rank               	0
+meleeweapon         0 "Dory Spear"
+rangedweapon       -1 "Bronze Javelin"
+human
+largeshield
+
+newmonster          "Skiritai" # Irregulars
+descr "A lightly armored irregular division, the Skiritai were accustomed to hard work and rough terrain allowing these men to be very flexible serving as scouts, forward infantry, and shock infantry."
+spr1 "/sprites/skiritai1.tga"
+spr2 "/sprites/skiritai2.tga"
+armor               0
+hp                  7
+str                 5
+mor                 7
+mr                  4
+rank                0
+meleeweapon         0 "Dagger"
+rangedweapon        0 "Bronze Javelin"
+human
+fast
+battlefast
+mountain
+snow
+wall
+stealth
+evasion             1 # Maybe
+chopforest          1
+shield
+
+newmonster          "Skiritai Captain"
+copystats			"Skiritai"
+descr "A skiritai who has proven his ability will be chosen to lead his fellow Skiritai as a captain. A commander just as fast and flexible as those he leads."
+spr1 "/sprites/skiritai_captain1.tga"
+spr2 "/sprites/skiritai_captain2.tga"
+hp                  8
+mor                 8
+nametype                       7 # Greek Male
+acutesenses
+
+newmonster          "Homoioi Hippeis"
+descr "While not famous for their cavalry, the Spartan army certainly has some. Mostly for those deemed unfit to be hoplites or as a form of punishment, these cavalry do their job, but little else. They ride horses and hit the enemy."
+spr1 "/sprites/homoioi_hippeis1.tga"
+spr2 "/sprites/homoioi_hippeis2.tga"
+hp                  9
+armor               0
+mor                 4
+str                 3
+mr                 	4
+rank               	1 # Front rank.
+meleeweaponspec     0 "Spear Charge"
+meleeweapon         0 "Kopis"
+human
+fast
+
+newmonster          "Primitive Catapult"
+descr "While not as effective as the catapults and trebuchets that would be developed back in Greece, these primitive catapults are still somewhat useful for sieging cities until Sparta can get some more divine assistance."
+spr1 "/sprites/catapult1.tga"
+spr2 "/sprites/catapult2.tga"
+hp                  8
+str                 3
+armor               0
+mor                 4
+rank               -1
+siegeweapon		   18 "Boulder"
+meleeweapon		   -1 "Xiphos"
+slow
+immobile
+size2x2
+
+newmonster          "Spartan Royal Guard"
+copystats			"Spartan Hoplite"
+descr "The greatest of Spartan warriors are given the honor of deploying alongside the military king in all matters. Unyielding in their duty and certainly skilled enough to see it through, the Spartan royal guard are the most feared unit in the Spartan army."
+spr1 "/sprites/royal_guard1.tga"
+spr2 "/sprites/royal_guard2.tga"
+clearweapons
+armor               3
+hp                  12
+str                 10
+mor                 15
+mr                  4
+meleeweapon                    3 "Xiphos"
+meleeweapon                    1 "Shield Bash"
+frontpos
+drawsize			5
+
+newmonster          "Champion of the Pankration"
+copystats			"Spartan Hoplite"
+descr "A master at hand to hand combat, this Spartan man has proven himself as the epitome of what it means to be Spartan. A perfect specimen, this legendary celebrity takes to the field of battle to put his practiced skills to use for the glory of Sparta."
+spr1 "/sprites/champion1.tga"
+spr2 "/sprites/champion2.tga"
+clearweapons
+armor               4
+hp                  15
+str                 11
+mor                 14
+mr                  4
+meleeweaponbonus               5 "Fist"
+meleeweaponbonus               2 "Grapple"
+meleeweaponbonus               0 "Shield Bash"
+frontpos
+drawsize			15
+nametype                       7 # Greek Male
+noleader
+fastheal
+allitemslots
+localgoldbonus 		50
+awe					1
+tangleres			1
+localleadership		3
+evasion				1
+diseaseres
+
+# -Kings-
+newmonster "Unproven Steward King of Sparta"
+descr "A newly crowned king, this unproven king has yet to be seen as a true king in the eyes of his people."
+spr1 "/sprites/steward_unproven1.tga"
+spr2 "/sprites/steward_unproven2.tga"
+armor                          1 # Armor.
+hp                             8 # Hit Points.
+str                            5 # Strength.
+mor                            8 # Morale.
+mr                             4 # Magic Resistance.
+rank                          -1 # Rear rank
+meleeweapon                    0 "Xiphos"
+human
+leadership					   1
+power		         	-1	   1	
+nametype                       7 # Greek Male
+mastery 					   1
+drawsize					 -10
+allitemslots
+
+newmonster "Steward King of Sparta"
+descr "A member of the Eurypontid dynasty, this king holds dominion over the domestic affairs of Sparta. They direct the construction of farms, temples, and mines for the betterment of Sparta."
+spr1 "/sprites/steward_king1.tga"
+spr2 "/sprites/steward_king2.tga"
+armor                          2 # Armor.
+hp                            10 # Hit Points.
+str                            6 # Strength.
+mor                            8 # Morale.
+mr                             4 # Magic Resistance.
+rank                          -1 # Rear rank
+meleeweapon                    0 "Xiphos"
+human
+leadership					   1
+power		         	-1	   2	
+nametype                       7 # Greek Male
+drawsize					  -5
+allitemslots
+
+newmonster "Unproven Military King of Sparta" 
+descr "A newly crowned king, this unproven king has yet to be seen as a true king in the eyes of his people."
+spr1 "/sprites/military_unproven1.tga"
+spr2 "/sprites/military_unproven2.tga"
+armor                          3  # Armor.
+hp                             11 # Hit Points.
+str                            9  # Strength.
+mor                            10 # Morale.
+mr                             4  # Magic Resistance.
+rank                           1  # Front
+frontpos
+meleeweapon                    1 "Dory Spear"
+meleeweapon                    1 "Xiphos"
+rangedweapon                   0 "Throw Dory Spear"
+human
+largeshield
+leadership					   2
+power		         	0	   1
+nametype                       7 # Greek Male
+mastery 					   1
+allitemslots
+
+newmonster "Military King of Sparta"
+descr "A member of the Agiad dynasty, this king holds dominion over the military affairs of Sparta. Often seen on the front lines, he organizes armies and raises up helots to serve the Spartan war machine."
+spr1 "/sprites/military_king1.tga"
+spr2 "/sprites/military_king2.tga"
+armor                          4 # Armor.
+hp                             15 # Hit Points.
+str                            12 # Strength.
+mor                            15 # Morale.
+mr                             4 # Magic Resistance.
+rank                           1 # Front
+frontpos
+meleeweapon                    2 "Dory Spear"
+meleeweapon                    2 "Xiphos"
+rangedweapon                   1 "Throw Dory Spear"
+human
+largeshield
+leadership					   3
+power		         	0	   2
+nametype                       7 # Greek Male
+drawsize					  10
+berserker
+allitemslots
+
+# -Temple Recruitment-
+newmonster          "Priest Base"
+spr1 "/sprites/priest1.tga"
+spr2 "/sprites/priest2.tga"
+armor                          0 # Armor.
+hp                             5 # Hit Points.
+str                            3 # Strength.
+mor                            5 # Morale.
+mr                             7 # Magic Resistance.
+rank                          -1 # Back rank.
+meleeweapon                    0 "Fist"
+human
+nametype                       7 # Greek Male
+stationary
+
+
+# APOLLO (healing/magic/utility)
+newmonster          "Priest of Apollo"
+copystats			"Priest Base"
+descr "A chosen priest of Apollo. They serve faitfully in the temple and can call upon his favor, even requesting his patronage."
+spr1 "/sprites/apollo_priest1.tga"
+spr2 "/sprites/apollo_priest2.tga"
+gathergems
+power		         	-5	   1
+mastery 					   1
+
+newmonster          "Archpriest of Apollo"
+copystats			"Priest of Apollo"
+descr "As evidence of the close bond between Apollo and Sparta, the Archpriest becomes the ultimate authority regarding worship of Apollo and can request for his divine intervention through the gift of his chosen champion."
+spr1 "/sprites/apollo_priest1.tga"
+spr2 "/sprites/apollo_priest2.tga"
+gathergems
+power		         	-5	   2
+
+newmonster 			"Remnant of Python"
+descr "Python was a serpent monster, presided at the Delphic oracle, which existed in the cult center for its mother, Gaia. Apollo decided to build his sanctuary in Delphi. He fought and killed the Python and thus established the famous Oracle of Delphi. Remnants of its soul persist, now at the command of the God of Light."
+spr1 "/sprites/python1.tga"
+spr2 "/sprites/python2.tga"
+armor                          0 # Armor.
+hp                             1 # Hit Points.
+str                            1 # Strength.
+mor                            3 # Morale.
+mr                             6 # Magic Resistance.
+rank                           1 # Front rank
+meleeweapon				   	   0 "Postmortal Bite"
+ethereal
+tiny
+frontpos
+fireres 50
+coldres	50
+poisonres 50
+shockres 50
+acidres 50
+diseaseres
+
+newmonster          "Lyrist"
+descr "Masters of their craft imbued with the musical blessings of the God Apollo, these musicians may seem fragile, but their music invokes feelings never before seen."
+spr1 "/sprites/lyrist1.tga"
+spr2 "/sprites/lyrist2.tga"
+armor                          0 # Armor.
+hp                             5 # Hit Points.
+str                            4 # Strength.
+mor                            7 # Morale.
+mr                             6 # Magic Resistance.
+rank                          -1 # Rear rank.
+rangedweapon50x                0 "Blessed Chord"
+rangedweapon               	   0 "Deceptive Lullaby"
+meleeweapon				   	   0 "Fist"
+human
+fireres 25
+coldres	25
+poisonres 25
+shockres 25
+
+newmonster          "Archer of Apollo"
+descr "The male counterpart to the Hunters of Artemis, the Archers of Apollo have been blessed by Apollo to be his chosen warriors, weilding enchanted bows."
+spr1 "/sprites/apollo_archer1.tga"
+spr2 "/sprites/apollo_archer2.tga"
+armor                          1 # Armor.
+hp                             7 # Hit Points.
+str                            4 # Strength.
+mor                            8 # Morale.
+mr                             6 # Magic Resistance.
+rank                           0 # Mid rank.
+rangedweapon               	   0 "Arrow of Light"
+rangedweapon               	   0 "Divine Protection"
+meleeweapon				   	   0 "Dagger"
+human
+fireres 25
+coldres	25
+poisonres 25
+shockres 25
+
+newmonster          "Oracle"
+descr "Many Oracles dotted the land back in Greece with the most famous residing in Delphi. Now, here in Elysium, Apollo continues to speak through his Oracle to guide his people."
+spr1 "/sprites/oracle1.tga"
+spr2 "/sprites/oracle2.tga"
+armor                          0 # Armor.
+hp                             6 # Hit Points.
+str                            3 # Strength.
+mor                           10 # Morale.
+mr                             8 # Magic Resistance.
+rank                          -1 # Rear rank.
+spellweapon			19		   2
+stationary
+human
+nametype                       8 # Greek Female
+power		         	-6	   1
+spiritsight
+farsight
+fireres 50
+coldres	50
+poisonres 50
+shockres 50
+
+newmonster "Dolofonos"
+descr "Since the days of the Trojan War, Apollo has divinely guided arrows to deal out swift vengeance upon those who have wronged him. Since then, his followers have organized this vengeance into a guild of assassins. These Dolofonos invoke sweet retribution as guided by the God of Light."
+spr1 "/sprites/dolofonos1.tga"
+spr2 "/sprites/dolofonos2.tga"
+armor                          1 # Armor.
+hp                             5 # Hit Points.
+str                            3 # Strength.
+mor                            6 # Morale.
+mr                             7 # Magic Resistance.
+rank                          -1 # Rear rank.
+rearpos
+evasion 					   1
+allitemslots
+wall
+stealth
+assassinweapon 6 "Divinely Guided Arrow"
+assassinweapon 5 "Poisioned Kopis"
+rangedweapon 0 "Bow"
+meleeweapon 3 "Poisioned Kopis"
+fireres 25
+coldres	25
+poisonres 25
+shockres 25
+
+newmonster          "Chiron"
+descr "A wise centaur who has trained many mythic heroes from the great Herakles to Achilles. His skills now come in handy to teach and lead the Spartan armies."
+spr1 "/sprites/chiron1.tga"
+spr2 "/sprites/chiron2.tga"
+hp                             54
+mr                             8
+str                            7
+armor                          1
+mor                            8
+rank                           -1
+meleeweapon				   	  10 "Branch"
+rangedweaponbonus              0 "Magiko Velos"
+rangedweaponbonus              0 "Magiko Velos"
+spellweaponbonus	54		   3
+fast
+immortal
+immortalap                     12
+reformloc                      912
+fastheal
+leadership                     3
+armytrainer                    5
+drawsize					  50
+size2x2
+allitemslots
+spiritsight
+fireres 75
+coldres	75
+poisonres 75
+shockres 75
+charmres
+
+newmonster          "Statue of Apollo"
+descr "A statue erected in Sparta to signify the bond of patronage between Apollo and Sparta."
+spr1 "/sprites/statue_apollo.tga"
+armor                         99 # Armor.
+hp                           999 # Hit Points.
+str                            0 # Strength.
+mor                           99 # Morale.
+mr                            99 # Magic Resistance.
+rank                          -1 # Rear rank.
+huge
+immobile
+stationary
+nozoc
+nocombat
+unimportant
+drawsize					  60
+rearpos
+unique 1
+
+
+# ARES (attack/melee)
+newmonster          "Priest of Ares"
+copystats			"Priest Base"
+descr "A chosen priest of Ares. They serve faitfully in the temple and can call upon his favor, even requesting his patronage."
+spr1 "/sprites/ares_priest1.tga"
+spr2 "/sprites/ares_priest2.tga"
+gathersacr
+power		         	-4	   1
+mastery 					   1
+
+newmonster          "Archpriest of Ares"
+copystats			"Priest of Ares"
+descr "As evidence of the close bond between Ares and Sparta, the Archpriest becomes the ultimate authority regarding worship of Ares and can request for his divine intervention through the gift of his chosen champion."
+spr1 "/sprites/ares_priest1.tga"
+spr2 "/sprites/ares_priest2.tga"
+gathersacr
+power		         	-4	   2
+
+newmonster 			"Amazon Warrior"
+descr "Descending from the 'union' of Ares and the nymph Harmonia, these fierce, independent women warriors surpass all men in physical agility and strength making them terrifying warriors on the field of battle."
+spr1 "/sprites/amazon1.tga"
+spr2 "/sprites/amazon2.tga"
+armor                          1 # Armor.
+hp                             9 # Hit Points.
+str                            5 # Strength.
+mor                            6 # Morale.
+mr                             4 # Magic Resistance.
+rank                           1 # Front rank
+meleeweapon				   	   3 "Spear"
+shield
+fireres						  50
+female
+
+newmonster          "Queen of the Amazons"
+descr "The great and fierce warrior women called the Amazons must have a great and fierce warrior queen. This queen of the Amazons is the leader of her people and the head of her dynasty and hopes to lead her people to a new era of glory."
+spr1 "/sprites/queen1.tga"
+spr2 "/sprites/queen2.tga"
+armor                          2 # Armor.
+hp                            24 # Hit Points.
+str                            7 # Strength.
+mor                           10 # Morale.
+mr                             6 # Magic Resistance.
+rank                           1 # Front rank
+meleeweaponbonus			   8 "Spear"
+meleeweaponbonus			   8 "Spear"
+leadership                     2
+frontpos
+fireres						  50
+female
+nametype                      35 # Amazon?
+berserker
+evasion
+nametype 					   8
+allitemslots
+drawsize					  10
+
+newmonster 			"Bloodlust Mage"
+descr "A devoted cultist to Ares who revels in bloodlust, seeking to inspire holy bloodlust in those around him as a form of worship to his diety."
+spr1 "/sprites/bloodmage1.tga"
+spr2 "/sprites/bloodmage2.tga"
+armor                          0 # Armor.
+hp                             8 # Hit Points.
+str                            4 # Strength.
+mor                            8 # Morale.
+mr                             6 # Magic Resistance.
+rank                          -1 # Rear rank.
+rangedweapon               	   0 "Invoke Battle Rage"
+spellweapon			11		   1
+drawsize					 -10
+human
+
+newmonster          "Mare of Diomedes"
+# Maybe add eating people, they also sometimes were said to breathe fire
+descr "Wild, man-eating horses once belonging to the son of Ares, these horses have been wrangled and controlled by the god himself for Sparta."
+spr1 "/sprites/mare1.tga"
+spr2 "/sprites/mare2.tga"
+hp                         26
+mr                         3
+str                        6
+armor                      1
+mor                        99
+rank                       1
+meleeweapon                0 "Mare's Bite"
+rangedweapon               0 "Breathe Fire"
+fast
+battlefast
+animal
+noslots
+trample                    4
+size2x2
+drawsize 				  30
+frontpos
+
+newmonster          "Ismenian Dragon"
+descr "The son of Ares who guarded his sacred spring. This terrifying dragon rips and tears through its victims. When slain, its teeth can be planted to grow more soldiers to fight for Ares' desires."
+spr1 "/sprites/dragon1.tga"
+spr2 "/sprites/dragon2.tga"
+hp                         122
+mr                         6 
+str                        12
+armor                      3
+mor                        14
+rank                       1
+meleeweapon                6 "Ismenian Bite"
+meleeweapon                4 "Claw"
+meleeweapon                4 "Claw"
+meleeweapon                0 "Constrict"
+digest                     10
+flying
+fast
+battlefast
+fastheal
+dragon                     1
+regeneration
+noslots
+huge
+firstshape                 1
+fireres					 100
+diseaseres
+bluntres
+drawsize				  20
+
+newmonster          "Sown Teeth of the Ismenian Dragon"
+descr "Once slain, the teeth of the Ismenian Dragon are sown into the earth, eventually sprouting his offspring, the Spartoi."
+spr1 "/sprites/sown_teeth.tga"
+hp                         1
+mr                         0
+str                        0
+armor                      0
+mor                        0
+rank                       -1
+immobile
+stationary
+spawn1d6mon                80
+growtime                   4
+noslots
+nozoc
+nocombat
+
+newmonster          "Spartoi"
+descr "The unholy spawn of the fallen Ismenian Dragon."
+spr1 "/sprites/spartoi1.tga"
+spr2 "/sprites/spartoi2.tga"
+armor               3
+hp                  10
+str                 9
+mor                 99
+mr                  2
+rank                1
+meleeweapon         2 "Cursed Dory Spear"
+meleeweapon         2 "Cursed Xiphos"
+largeshield
+coldres 			100
+poisonres 			100
+undead
+sleepres
+charmres
+pierceres
+water
+drawsize			10
+miscslots
+
+newmonster          "Statue of Ares"
+descr "A statue erected in Sparta to signify the bond of patronage between Ares and Sparta."
+spr1 "/sprites/statue_ares.tga"
+armor                         99 # Armor.
+hp                           999 # Hit Points.
+str                            0 # Strength.
+mor                           99 # Morale.
+mr                            99 # Magic Resistance.
+rank                          -1 # Rear rank.
+huge
+immobile
+stationary
+nozoc
+nocombat
+unimportant
+drawsize					  50
+rearpos
+unique 1
+
+
+# ATHENA (defense)
+newmonster          "Priest of Athena"
+copystats			"Priest Base"
+descr "A chosen priest of Athena. They serve faitfully in the temple and can call upon her favor, even requesting her patronage."
+spr1 "/sprites/athena_priest1.tga"
+spr2 "/sprites/athena_priest2.tga"
+gatherrelics
+power		         	-3	   1
+mastery 					   1
+
+newmonster          "Archpriest of Athena"
+copystats			"Priest of Athena"
+descr "As evidence of the close bond between Athena and Sparta, the Archpriest becomes the ultimate authority regarding worship of Athena and can request for her divine intervention through the gift of her chosen champion."
+spr1 "/sprites/athena_priest1.tga"
+spr2 "/sprites/athena_priest2.tga"
+gatherrelics
+power		         	-3	   2
+
+newmonster          "Protector of Athena"
+descr "A devoted cultist of Athena, the protector of Athena has proven their worth and been blessed by Athena to personify the virtues of defense in war."
+spr1 "/sprites/protector1.tga"
+spr2 "/sprites/protector2.tga"
+armor                          3 # Armor.
+hp                            16 # Hit Points.
+str                            6 # Strength.
+mor                            8 # Morale.
+mr                             4 # Magic Resistance.
+rank                           1 # Front rank
+rangedweapon               	   0 "Athena's Grace"
+meleeweapon				   	   3 "Shield Bash"
+largeshield
+slow
+spread 4
+
+newmonster          "Spawn of Arachne" #TODO armor the spiders?
+copystats			"Giant Spider"
+descr "Once a great weaver, Arachne pridefully challenged Athena to a contest. By the end of the contest, Arachne had hung herself and Athena turned her into a spider out of mercy. Her monstrous spawn now weave fear into the hearts of mortals."
+#spr1 "/sprites/protector1.tga"
+#spr2 "/sprites/protector2.tga"
+
+newmonster          "Trojan Horse"
+descr "Just a gift of a lovely wooden horse. No soldiers here, no sir."
+spr1 "/sprites/trojan_horse.tga"
+hp                  80
+str                 8
+armor               1
+mor                 99
+rank                1
+meleeweapon    4 "Summon Spartan Hoplite"
+meleeweapon   10 "War Cry"
+rangedweapon		0 "Ambush"	
+huge
+bluntres
+slashres
+pierceres
+fireres			   -50
+poisonres		   100
+sleepres
+charmres
+noslots
+noeyes
+siegetunnel         90
+nametype            0
+firstshape			1
+drawsize			20
+slow
+
+newmonster          "Enchanter of the Wise"
+descr "As Athena is not just the goddess of wisdom or war, these devoted scholars combine the two to enchant their comrades on the field of battle, doing their best to personify the virtues of Athena. They've also got an owl, so that's cool."
+spr1 "/sprites/enchanter1.tga"
+spr2 "/sprites/enchanter2.tga"
+armor                          0 # Armor.
+hp                             9 # Hit Points.
+str                            4 # Strength.
+mor                            6 # Morale.
+mr                             6 # Magic Resistance.
+rank                          -1 # Rear rank
+spellweapon			26		   3
+meleeweapon				   	   0 "Fist"
+allitemslots
+spiritsight
+power		         	-7	   1
+nametype					   7
+
+#TODO maybe turn dead enchanter into an angry owl xD
+
+newmonster          "Gorgon"
+copystats			"Gorgon"
+descr "The famed Gorgon, Medusa, with her hair full of snakes is a fearsome opponent to all who gaze upon her, both friend and foe."
+allitemslots
+
+newmonster          "Statue of Athena"
+descr "A statue erected in Sparta to signify the bond of patronage between Athena and Sparta."
+spr1 "/sprites/statue_athena.tga"
+armor                         99 # Armor.
+hp                           999 # Hit Points.
+str                            0 # Strength.
+mor                           99 # Morale.
+mr                            99 # Magic Resistance.
+rank                          -1 # Rear rank.
+huge
+immobile
+stationary
+nozoc
+nocombat
+unimportant
+drawsize					  60
+rearpos
+unique 1
+
+
+# ARTEMIS (range/animals)
+newmonster          "Priest of Artemis"
+copystats			"Priest Base"
+descr "A chosen priest of Artemis. They serve faitfully in the temple and can call upon her favor, even requesting her patronage."
+spr1 "/sprites/artemis_priest1.tga"
+spr2 "/sprites/artemis_priest2.tga"
+gatherherbs
+power		         	-2	   1
+mastery 					   1
+
+newmonster          "Archpriest of Artemis"
+copystats			"Priest of Artemis"
+descr "As evidence of the close bond between Artemis and Sparta, the Archpriest becomes the ultimate authority regarding worship of Artemis and can request for her divine intervention through the gift of her chosen champion."
+spr1 "/sprites/artemis_priest1.tga"
+spr2 "/sprites/artemis_priest2.tga"
+gatherherbs
+power		         	-2	   2
+
+newmonster 			"Hunter of Artemis"
+descr "Hunters dedicated to Artemis, pledging themselves to the hunt and claiming a close bond with the goddess. In return, they are blessed and guided by Artemis with lethal results."
+spr1 "/sprites/hunter_artemis1.tga"
+spr2 "/sprites/hunter_artemis2.tga"
+armor                          1 # Armor.
+hp                             8 # Hit Points.
+str                            4 # Strength.
+mor                            8 # Morale.
+mr                             5 # Magic Resistance.
+rank                           0 # Mid rank.
+rangedweapon               	   0 "Arrow of Rot"
+meleeweapon				   	   0 "Dagger"
+human                          
+female
+foreststealth
+acutesenses
+
+newmonster            "Tree Nymph"
+copystats "Nymph"
+descr   "Once a close hunting companion of Artemis, Callisto was seduced by Zeus and turned into a bear by Hera in rage. Her children live on as tree nymphs, serving their beloved goddess, Artemis."
+spr1 "/sprites/nymph1.tga"
+spr2 "/sprites/nymph2.tga"
+rank                           -1
+clearweapons
+rangedweapon               	   0 "Clawing Roots"
+foreststealth
+female
+tangleres 1
+miscslots
+unaging
+awakentrees 3
+awakenfungus 3
+drawsize					  10
+
+newmonster          "Erymanthian Boar"
+descr "A gigantic boar from Mount Erymanthos which lays waste to the countryside and anyone in its path."
+spr1 "/sprites/e_boar1.tga"
+spr2 "/sprites/e_boar2.tga"
+hp                             27
+mr                             3
+str                            7
+armor                          0
+mor                            5
+rank                           1
+meleeweapon                    0 "Boar Charge"
+meleeweapon                    0 "Tusk Sweep"
+animal
+noslots
+berserker
+size2x2
+trample                        5
+drawsize					  20
+
+newmonster          "Calydonian Boar"
+descr "A massive boar sent by Artemis to punish those who deserve it."
+spr1 "/sprites/c_boar1.tga"
+spr2 "/sprites/c_boar2.tga"
+hp                             87
+mr                             4
+str                            10
+armor                          1
+mor                            6
+rank                           1
+huge
+meleeweapon                    8 "Boar Charge"
+meleeweapon                    5 "Tusk Sweep"
+animal
+noslots
+berserker
+fear                           1
+trample                        7
+drawsize					  85
+
+newmonster            "Companion of Artemis"
+copystats "Nymph"
+descr   "Once a close hunting companion of Artemis, Callisto is still a cunning and deadly hunter, using her magic with deadly effeciency."
+spr1 "/sprites/callisto1.tga"
+spr2 "/sprites/callisto2.tga"
+hp                            21
+armor                          1
+rank                          -1
+clearweapons
+rangedweaponbonus              3 "Arrow of Rot"
+spellweaponbonus	60		   2
+foreststealth
+hideanimals					   1
+female
+tangleres 					   1
+allitemslots
+unaging
+awakentrees 				   5
+awakenfungus 				   5
+drawsize					  20
+fast
+nametype                       8 # Greek Female
+spiritsight
+unique 						   1
+firstshape                 	   1
+
+newmonster			"Great Bear"
+copystats			"Bear"
+descr "Callisto's inevitable fate is to become a bear. No matter the account of the myth, Callisto is turned into Ursa Major (the Great Bear)."
+hp                            35
+drawsize					  20
+allitemslots
+
+newmonster          "Statue of Artemis"
+descr "A statue erected in Sparta to signify the bond of patronage between Artemis and Sparta."
+spr1 "/sprites/statue_artemis.tga"
+armor                         99 # Armor.
+hp                           999 # Hit Points.
+str                            0 # Strength.
+mor                           99 # Morale.
+mr                            99 # Magic Resistance.
+rank                          -1 # Rear rank.
+huge
+immobile
+stationary
+nozoc
+nocombat
+unimportant
+drawsize					  50
+rearpos
+unique 1
+
+
+# Typhon events
+newmonster          "Father of Monsters"
+descr "A monstrous, serpentine titan and one of the deadliest creatures ever to exist. The son of Gaia and Tartarus, Typhon attempted to overthrew Zeus and the gods of Olympus but was defeated and buried underneath the volcano, Mount Etna, as punishment. Now, Zeus has unleashed him upon Elysium as punishment for their actions. Hopefully, he will be able to control him."
+spr1 "/sprites/typhon1.tga"
+spr2 "/sprites/typhon2.tga"
+hp                         176
+mr                         9
+str                        16
+armor                      3
+mor                        16
+rank                       -1
+meleeweapon                    9 "Claw"
+meleeweapon                    9 "Claw"
+meleeweapon                    6 "Snake Hair"
+meleeweapon                    6 "Snake Hair"
+meleeweapon                    6 "Snake Hair"
+meleeweapon                    6 "Snake Hair"
+meleeweapon                   17 "Bite"
+spellweaponbonus	3		   3
+spellweaponbonus	5		   2
+spellweaponbonus	67		   2
+huge
+drawsize 	80
+wall
+horror
+aggressive
+indwander   13 # Wild hunt
+wanderattack -1
+likesterr 919
+motherspawn 1
+regeneration
+fireres     100
+coldres		25
+poisonres	25
+shockres	25
+acidres		25
+diseaseres
+sleepres
+charmres
+noslots
+unaging
+fireexpl    30
+unique      1
+fireaura    3
+digest      10
+absorbdead  50
+extraeyes   200
+fear        2
+trample     8
+combustionaura  1
+changetemp  10
+burnforest  25
+water
+growtime	10
+
+newmonster          "Typhon Unchained"
+descr   "Typhon has broken his chains! Hopefully he will not notice and continue to serve Zeus and the gods."
+spr1 "/sprites/unchained1.tga"
+spr2 "/sprites/unchained2.tga"
+hp                         201
+mr                         9
+str                        18
+armor                      4
+mor                        30
+rank                       -1
+meleeweapon                   11 "Claw"
+meleeweapon                   11 "Claw"
+meleeweapon                    8 "Snake Hair"
+meleeweapon                    8 "Snake Hair"
+meleeweapon                    8 "Snake Hair"
+meleeweapon                    8 "Snake Hair"
+meleeweapon                   21 "Bite"
+#rangedweaponbonus				   0 "Spew Slag Shard"
+#rangedweaponbonus				   0 "Spew Slag Shard"
+#rangedweaponbonus				   0 "Magma Boulder"
+spellweaponbonus	3		   3
+spellweaponbonus	5		   2
+spellweaponbonus	67		   3
+huge
+drawsize 	80
+wall
+horror
+aggressive
+indwander   13 # Wild hunt
+wanderattack -1
+likesterr 919
+motherspawn 1
+regeneration
+fireres     100
+coldres		25
+poisonres	25
+shockres	25
+acidres		25
+diseaseres
+sleepres
+charmres
+noslots
+unaging
+fireexpl    50
+unique      1
+fireaura    5
+digest      10
+absorbdead  100
+extraeyes   200
+fear        3
+trample     10
+combustionaura  2
+changetemp  20
+burnforest  100
+water
+
+
+# Units for Hades events
+newmonster          "God of the Underworld"
+descr "Hades, the god of death and the underworld, is the brother of the great Zeus. Often overlooked by his godly siblings, he has come to drag the mighty Typhon down to Tartarus and prove his worth in the eyes of his siblings."
+spr1 "/sprites/new_hades1.tga"
+spr2 "/sprites/new_hades2.tga"
+hp                  187
+mr                  10
+str                 17
+armor               1
+mor                 20
+rank               -1
+meleeweapon         10 "Hades's Bident"
+spellweaponbonus    38  3
+spellweaponbonus    9   3
+float
+motherspawn 6
+homeplane   5 
+planeshift  1
+hadesres    100
+varregen	10
+spiritsight
+likesterr   919
+fireres		50
+coldres		100
+poisonres	100
+shockres	50
+acidres		50
+diseaseres
+charmres
+sleepres
+ethereal
+awe 3 #?
+#startitem "Helm of Darkness"
+allitemslots
+unaging
+unique 1
+sensedead 1
+reanimate 100
+huge
+drawsize 15
+stupid
+wander 1
+
+newmonster 			"Hero of the Trojan War"
+descr "The revered hero of the Trojan War, Achilles was destined to be greater than the gods themselves. Unfortunately, he died. Now his spirit commands a section of the underworld under Hades and serves according to his whims."
+spr1 "/sprites/achilles1.tga"
+spr2 "/sprites/achilles2.tga"
+hp                             1 # Hit Points.
+str                            14 # Strength.
+mor                            15 # Morale.
+mr                             10 # Magic Resistance.
+armor                          5 # Armor.
+rank                           1 # Front
+frontpos
+meleeweaponbonus               12 "Xiphos"
+meleeweaponbonus               8 "Shield Bash"
+largeshield
+leadership					   3
+allitemslots
+
+hadesres    100
+fireres		100
+coldres		100
+poisonres	100
+shockres	100
+acidres		100
+diseaseres
+charmres
+sleepres
+displaced 1
+ethereal
+unaging
+lucky
+tiny
+evasion
+drawsize 15
+awe 1
+nametype					   7
+unique 1
+
+newmonster          "Fallen Hoplite"
+copystats 			"Armored Soulless"
+descr "In the underworld, Achilles is given dominion over a section of the land. These fallen Greek warriors heed his beck and call."
+nametype					   7
+
+newmonster          "Bulwark of the Achaeans"
+descr "An often overlooked hero, Ajax was a bastion for his allies in matters of both war and peace. Feared by his enemies and a loyal friend of Achilles, Ajax survived the Trojan War without a scratch until falling on his own sword in anger. Now he still fights alongside his friends and allies as a spirit."
+spr1 "/sprites/ajax1.tga"
+spr2 "/sprites/ajax2.tga"
+hp                             74 # Hit Points.
+str                            15 # Strength.
+mor                            15 # Morale.
+mr                             9 # Magic Resistance.
+armor                          4 # Armor.
+rank                           1 # Front
+frontpos
+meleeweaponbonus               8 "Dory Spear"
+meleeweaponbonus               5 "Shield Bash"
+largeshield
+allitemslots
+regeneration
+hadesres    	100
+fireres		50
+coldres		100
+poisonres	100
+shockres	50
+acidres		50
+bluntres
+slashres
+pierceres
+diseaseres
+charmres
+sleepres
+ethereal
+unaging
+drawsize 30
+berserker
+nametype					   7
+unique 1
+
+
+newmonster          "Friend of Achilles"
+descr "A close personal friend of Achilles, he grew up alongside him and Ajax, being trained by the great centaur Chiron. He was eventually killed in the Trojan War but now his spirit still fights alongside his lifelong friend, Achilles."
+spr1 "/sprites/patroclus1.tga"
+spr2 "/sprites/patroclus2.tga"
+hp                             28 # Hit Points.
+str                            10 # Strength.
+mor                            15 # Morale.
+mr                             7 # Magic Resistance.
+armor                          3 # Armor.
+rank                           1 # Front
+frontpos
+meleeweaponbonus               6 "Dory Spear"
+largeshield
+allitemslots
+hadesres    100
+fireres		50
+coldres		100
+poisonres	100
+shockres	50
+acidres		50
+diseaseres
+charmres
+sleepres
+ethereal
+unaging
+#lookslike -3
+drawsize 5
+nametype					   7
+unique 1
+
+newmonster          "King of Ithaca"
+descr "The legendary hero of the Odyssey. Odysseus was eloquent and cunning in life being the man who was gifted with the idea of the Trojan Horse. On his return home, he angered Poseidon by blinding his son and had a well recorded journey home where he died an old man. Now, he is once again in his prime, fighting as a spirit alongside his old allies of the Trojan War."
+spr1 "/sprites/odysseus1.tga"
+spr2 "/sprites/odysseus2.tga"
+hp                             24 # Hit Points.
+str                            8 # Strength.
+mor                            15 # Morale.
+mr                             6 # Magic Resistance.
+armor                          3 # Armor.
+rank                           1 # Front
+frontpos
+meleeweaponbonus               6 "Dory Spear"
+largeshield
+allitemslots
+hadesres    100
+fireres		50
+coldres		100
+poisonres	100
+shockres	50
+acidres		50
+diseaseres
+charmres
+sleepres
+ethereal
+unaging
+awe 1
+leadership 10
+stealth
+drawsize 5
+nametype					   7
+unique 1
+
+newmonster          "Slayer of Monsters"
+descr "One of the most celebrated heroes of greek history, Bellerophon tamed the winged Pegasus, slew the deadly Chimera, and defeated the Amazons single-handedly. Now the slayer of monsters continues the fight as a spirit at the command of Hades."
+spr1 "/sprites/bellerophon1.tga"
+spr2 "/sprites/bellerophon2.tga"
+hp                             46 # Hit Points.
+str                            8 # Strength.
+mor                            15 # Morale.
+mr                             6 # Magic Resistance.
+armor                          3 # Armor.
+rank                           1 # Front
+frontpos
+meleeweaponbonus               10 "Lead-tipped Spear"
+meleeweaponbonus               6 "Hoof"
+meleeweaponbonus               6 "Hoof"
+siegeweapon               	   35 "Drop Boulder"
+shield
+hadesres    100
+fireres		100
+coldres		100
+poisonres	100
+shockres	50
+acidres		50
+diseaseres
+charmres
+sleepres
+ethereal
+flying
+fast
+fastheal
+evasion 1
+farsight 1
+acutesenses
+unaging
+drawsize 5
+nametype					   7
+unique 1
+
+newmonster          "Leader of the Argonauts"
+# Possibly semistupid with follow stupid Argonauts? Maybe add the boat?
+descr "The leader of a band of heroes called 'The Argonauts,' Jason traveled the sea fighting monsters and giants to retrieve the famed Golden Fleece. He now travels the sea of the underworld as a spirit with his old allies."
+spr1 "/sprites/jason1.tga"
+spr2 "/sprites/jason2.tga"
+hp                             19 # Hit Points.
+str                            7 # Strength.
+mor                            15 # Morale.
+mr                             6 # Magic Resistance.
+armor                          3 # Armor.
+rank                           1 # Front
+frontpos
+meleeweaponbonus               6 "Dory Spear"
+shield
+allitemslots
+hadesres    100
+fireres		50
+coldres		100
+poisonres	100
+shockres	50
+acidres		50
+diseaseres
+charmres
+sleepres
+ethereal
+unaging
+leadership 10
+armytrainer 10
+nametype					   7
+unique 1
+
+newmonster          "Argonaut"
+descr "One of the 50 heroes that acompanied the hero Jason on his quest to fetch the golden fleece aboard the Argo. A skilled warrior in their own right, when the Argonauts are all together, they are a force to be reckoned with."
+spr1 "/sprites/argonaut1.tga"
+spr2 "/sprites/argonaut2.tga"
+hp                             16 # Hit Points.
+str                            6 # Strength.
+mor                            15 # Morale.
+mr                             6 # Magic Resistance.
+armor                          3 # Armor.
+rank                           1 # Front
+frontpos
+meleeweaponbonus               5 "Dory Spear"
+shield
+allitemslots
+hadesres    100
+fireres		50
+coldres		100
+poisonres	100
+shockres	50
+acidres		50
+diseaseres
+charmres
+sleepres
+ethereal
+unaging
+
+newmonster          "Son of Poseidon"
+descr "Theseus is considered the greatest Athenian hero to ever live. As a young man, he travelled the countryside fighting outwitting and defeating notorious brigands. Eventually, he volunteered to be sacrificed to the minotaur but ended up killing it instead. He returned to Athens and ruled until he was eventually murdered. His spirit now resides under Hades command, back in the underworld where he tried to abduct the goddess Persephone."
+spr1 "/sprites/theseus1.tga"
+spr2 "/sprites/theseus2.tga"
+hp                             62 # Hit Points.
+str                            14 # Strength.
+mor                            15 # Morale.
+mr                             8 # Magic Resistance.
+armor                          4 # Armor.
+rank                           1 # Front
+frontpos
+meleeweaponbonus              14 "Periphetes' Club"
+meleeweaponbonus               6 "Shield Bash"
+largeshield
+allitemslots
+hadesres    100
+fireres		50
+coldres		100
+poisonres	100
+shockres	50
+acidres		50
+diseaseres
+charmres
+sleepres
+ethereal
+unaging
+drawsize 15
+berserker
+goldbonus 10
+tradebonus 25
+awe 1
+water
+nametype					   7
+unique 1
+
+
+# Units for Poseidon events
+newmonster          "God of the Ocean"
+descr "Poseideon, the god of horses, earthquakes, and most famously the sea, is another brother of the mighty Zeus. Often viewed in a more favorable light than his brother Hades, Poseideon is still feared for his wrath, often cursing those who cross him and dooming their travels."
+spr1 "/sprites/new_poseidon1.tga"
+spr2 "/sprites/new_poseidon2.tga"
+hp                  205
+mr                  12
+str                 18
+armor               1
+mor                 20
+rank               -1
+meleeweapon         10 "Trident of the Depths"
+spellweaponbonus    4   3
+spellweaponbonus    6   3
+float
+varregen	10
+likesterr   919
+coldres		100
+poisonres	50
+shockres	50
+acidres		50
+diseaseres
+charmres
+sleepres
+awe 3
+allitemslots
+unaging
+unique 1
+stupid
+huge
+drawsize 15
+wander 1
+
+newmonster			"Minotaur Captain"
+copystats			"Keeper of Traditions"
+descr "Although you might be fooled to believe that minotaurs have adopted civilized ways, they are still the obnoxious brutes they always were, armor or not. We have managed to make armors that fit well enough not to itch or irritate the brutes. For most of the time, my friends in the military tell me, they do not remove their breast plates until the battle is over. This is likely due to the fact that they often enter a combat frenzy and no longer cares for itches or pains. Higher culture is and will always be beyond their grasp."
+
+# Units for Zeus events
+newmonster          "God of the Sky"
+descr "Zeus, the great and mighty god of gods, he rules the skies and lives a hedonistic life indulging in pleasure (much to the dismay of his wife, Hera). Having arrived in Elysium, he asserts his dominion over the skies and their cloudfolk as their rightful god. Only ever challenged by the great Typhon, he is now here to make sure it doesn't happen again."
+spr1 "/sprites/new_zeus1.tga"
+spr2 "/sprites/new_zeus2.tga"
+hp                  224
+mr                  12
+str                 18
+armor               1
+mor                 20
+rank               -1
+meleeweaponbonus    20 "Thunder Fist"
+spellweaponbonus    5   3
+spellweaponbonus    58  3
+float
+varregen	10
+likesterr   919
+fireres		50
+coldres		50
+poisonres	50
+shockres	100
+acidres		50
+diseaseres
+charmres
+sleepres
+awe 3
+allitemslots
+startitem "Zeus's Lightning Bolt"
+unaging
+unique 1
+shockaura	3
+stupid
+huge
+drawsize 30
+wander 1
+
+newmonster          "Champion of the Gods"
+descr "The greatest of all heroes, this demi-god is the epitome of bravery and masculinity. He slew countless monsters and overcame impossible challenges eventually obtaining godhood after his life ended. Now he returns alongside his father Zeus to enforce the will of the gods on Elysium."
+spr1 "/sprites/heracles1.tga"
+spr2 "/sprites/heracles2.tga"
+hp                  158
+mr                  10
+str                 16
+armor               2
+mor                 20
+rank               -1
+meleeweapon    		40 "Fist"
+meleeweapon   		40 "Fist"
+rangedweaponbonus   12 "Divine Bow"
+spellweaponbonus    48  3
+float
+regeneration
+fireres		50
+coldres		50
+poisonres	50
+shockres	75
+acidres		25
+diseaseres
+charmres
+sleepres
+awe 2
+allitemslots
+unaging
+unique 1
+size2x2
+
+
+# Hephaestus Stuff
+newmonster          "Hephaestus the Blacksmith of the Gods"
+descr "Hêphaistos, the god of fire, craftsmanship, and metalworking was the blacksmith of the gods. Born to Hera, he was cast out of Olympus but eventually returned to become the blacksmith of the gods, crafting Zeus' lightning bolt among other famous and powerful weapons and relics."
+spr1 "/sprites/hephaestus.tga"
+hp                  1
+mr                  10
+str                 18
+armor               3
+mor                 22
+rank               -1
+randomrare 100
+indwander 1
+size2x2
+unaging
+unique 1
+spawn1d6mon 15
+
+newmonster          "Automaton"
+descr "Automatons are animate, metal statues of animal, men and monsters crafted by the divine smith Hephaistos in his spare time. The best of them can think and feel just like man and are released to roam the countryside of their own free will."
+spr1 "/sprites/auto1.tga"
+spr2 "/sprites/auto2.tga"
+hp                  16
+mr                  5
+str                 6
+armor               1
+mor                 99
+rank                1
+meleeweapon         5 "Fist"
+shield
+noheal
+fireres		100
+coldres		100
+poisonres	100
+shockres	100
+diseaseres
+charmres
+sleepres
+bluntres
+slashres
+pierceres
+randomitem 10
+
+
+# ---------- Create the new Spartan Kings player class ---------------
+
+newclass
+setclassname        "Spartan Kings"
+addstartunits       "Spartan Hoplite" 14
+addstartcom        	"Hoplite File Leader"
+addstartcom        	"Hoplite File Leader"
+addstartunits       "Spartan Royal Guard" 4
+
+#==ENOMOTIA TESTING==
+#addstartunits       "Spartan Hoplite" 14
+#addstartcom        	"Hoplite File Leader"
+#addstartcom        	"Hoplite File Leader"
+
+#==SPECIAL RECRUIT TESTING==
+#addstartunits       "Perioikoi Hoplite" 16
+#addstartunits       "Perioikoi Phalangitai" 12
+#addstartunits       "Perioikoi Spear" 16
+#addstartunits       "Skiritai" 8
+#addstartcom         "Skiritai Captain"
+#addstartunits       "Homoioi Hippeis" 12
+#addstartunits       "Primitive Catapult" 1
+#addstartcom         "Champion of the Pankration"
+
+#==APOLLO TESTING==
+#addstartcom         "Archpriest of Apollo"
+#addstartunits       "Remnant of Python" 24
+#addstartunits       "Archer of Apollo" 8
+#addstartunits       "Dolofonos" 2
+#addstartunits		 "Lyrist" 2 
+#addstartcom         "Oracle"
+#addstartcom         "Chiron"
+
+#==ARES TESTING==
+#addstartcom          "Archpriest of Ares"
+#addstartunits       "Amazon Warrior" 24
+#addstartunits       "Bloodlust Mage" 2
+#addstartunits       "Mare of Diomedes" 8
+#addstartcom         "Ismenian Dragon"
+
+#==ATHENA TESTING==
+#addstartcom         "Archpriest of Athena"
+#addstartunits       "Stymphalian Bird" 24
+#addstartunits       "Spawn of Arachne" 8
+#addstartunits       "Protector of Athena" 4
+#addstartcom         "Gorgon"
+#addstartcom         "Enchanter of the Wise"
+#addstartunits       "Trojan Horse" 1
+
+#==ARTEMIS TESTING==
+#addstartcom         "Archpriest of Artemis"
+#addstartunits       "Erymanthian Boar" 8
+#addstartunits       "Tree Nymph" 4
+#addstartunits       "Hunter of Artemis" 12
+#addstartunits       "Calydonian Boar" 2
+#addstartcom         "Companion of Artemis"
+#addstartunits       "Nemean Lion" 2
+
+#==GODS & TITANS==
+#addstartcom         "Father of Monsters"
+
+#addstartcom		 "Hephaestus the Blacksmith of the Gods"
+#addstartunits		 	"Automaton" 10
+
+#addstartcom         "God of the Underworld"
+#addstartcom		 	"Hero of the Trojan War"
+#addstartcom		 	"Bulwark of the Achaeans"
+#addstartcom		 	"Friend of Achilles"
+#addstartcom		 	"King of Ithaca"
+#addstartcom		 	"Slayer of Monsters"
+#addstartcom		 	"Leader of the Argonauts"
+#addstartunits			"Argonaut" 18
+#addstartcom		 	"Son of Poseidon"
+
+#addstartcom         "God of the Ocean"
+#addstartcom		 	"Ancient Hydra"
+#addstartunits			"Cyclops" 6
+#addstartcom         "Minotaur Captain"
+#addstartunits		"Bronze Bull" 30
+
+#addstartcom         "God of the Sky"
+#addstartcom		 	"Champion of the Gods"
+
+setmaincom         "Military King of Sparta" 
+addstartcom        "Steward King of Sparta"
+
+hometerr 			910
+addstartterr 		911
+addstartterr 		916
+
+likescoast			2
+likessouth		   -4
+
+classdescr 			"Founded in ancient Greece by two twin descendants of the legendary Herakles, the famed city-state of Sparta went on to become a military powerhouse. In 431 BC, they went to war with their city-state rivals, Athens. In 404 BC, they won this war with the help of Persia, conquering Athens. On their return to their beloved Sparta, these two Kings and their men lost their way, sailing through the Mediterranean Sea only to find themselves marooned on a strange land. Refusing to die like cowards upon a beach, the Spartan Kings once again set up the city-state of Sparta and now aim to conquer all of Elysium. ^^ The Spartan Kings army mostly consists of their powerful Spartan Hoplites, which they will continue to upgrade and reorganize as their armies grow. If they ever need more troops, they can also call upon their lower class citizens, the Perioikoi, as well as their slaves, the Helots. Even with their powerful armies, their weak cavalry and lack of range can make things difficult when sieging cities. Eventually, the Spartan Kings can beseech the gods for their favor and gain the assistance of powerful mythic units to reinforce their armies. ^^ The Spartans have always been an agricultural city-state and relied heavily on their own conquests for income and supplies. The Spartan Kings can grow wide farmlands to supply their armies but focus primarily on conquest."
+classabdescr        "Receives free Spartan Youth units from the Training Grounds which can be upgraded into Spartan Hoplites. ^ Depends heavily on iron income. ^ Traditional units excel at melee combat, but struggle with magic and sieging. ^ Can recieve divine support through worship of Greek gods. ^ Large armies of Hoplites can reorganize into stronger formations."
+
+nostdtroops
+
+# Base Recruitment
+addunitrec	    	"Spartan Hoplite" 			100 4 50 0 10
+reclimiter          "=Spartan Youth"
+recterr             911
+addcomrec           "Hoplite File Leader"     	100 15 5 5
+reclimiter			"=Spartan Hoplite"
+recterr             911
+
+# Kings Recruitment
+addcomrec 			"Unproven Steward King of Sparta"	       	100 30 5 5
+recterr 			910
+reclimiter			"-Unproven Steward King of Sparta"
+reclimiter			"-Steward King of Sparta"
+addcomrec 			"Unproven Military King of Sparta"	       	100 30 5 10
+recterr 			910
+reclimiter			"-Unproven Military King of Sparta"
+reclimiter			"-Military King of Sparta"
+
+# Special Recruitment
+addcomrec 			"Skiritai Captain"	       	8 40 8 0
+addunitrec          "Perioikoi Hoplite"        	100 8 40 0 5
+addunitrec          "Perioikoi Spear"        	100 8 50 0 5
+addunitrec          "Perioikoi Phalangitai"     100 6 40 0 0
+addunitrec          "Skiritai"                  100 5 60 0 0
+addmercrec          "Homoioi Hippeis"           15 6 45 0 0
+addmercrec          "Primitive Catapult"        6 1 60 0 30
+
+# Temple Recruitment
+addcomrec 			"Priest of Apollo"	       	100 20 0 0
+recterr 			912
+reclimiter			"-Priest of Apollo"
+reclimiter			"-Archpriest of Apollo"
+reclimiter			"-Statue of Apollo"
+addcomrec 			"Archpriest of Apollo"	    100 20 0 0
+recterr 			912
+reclimiter			"-Priest of Apollo"
+reclimiter			"-Archpriest of Apollo"
+reclimiter			"+Statue of Apollo"
+addunitrec 			"Remnant of Python"	    	100 10 40 0 0
+recxcost			15	5
+recterr 			912
+addunitrec 			"Archer of Apollo"	       	100 4 50 0 5
+recxcost			15	10
+recterr 			912
+reclimiter			"+Statue of Apollo"
+addunitrec 			"Lyrist"	       			100 2 60 0 0
+recxcost			15	15
+recterr 			912
+reclimiter			"+Statue of Apollo"
+addunitrec 			"Dolofonos"	       			12 2 80 18 5
+recxcost			15	12
+recterr 			912
+reclimiter			"+Statue of Apollo"
+addcomrec 			"Oracle"	       			100 45 0 0
+recxcost			15	15
+recterr 			912
+reclimiter			"+Statue of Apollo"
+
+addcomrec 			"Priest of Ares"	       	100 20 0 0
+recterr 			913
+reclimiter			"-Priest of Ares"
+reclimiter			"-Archpriest of Ares"
+reclimiter			"-Statue of Ares"
+addcomrec 			"Archpriest of Ares"	    100 20 0 0
+recterr 			913
+reclimiter			"-Priest of Ares"
+reclimiter			"-Archpriest of Ares"
+reclimiter			"+Statue of Ares"
+addunitrec 			"Amazon Warrior"	       	100 8 40 0 3
+recxcost			4	10
+recterr 			913
+addcomrec 			"Queen of the Amazons"	    4 50 0 5
+recxcost			4	15
+recterr 			913
+reclimiter			"-Queen of the Amazons"
+reclimiter			"+Statue of Ares"
+addunitrec 			"Bloodlust Mage"	       	100 1 30 0 0
+recxcost			4	25
+recterr 			913
+reclimiter			"+Statue of Ares"
+addunitrec 			"Mare of Diomedes"	       	100 4 40 0 0
+recxcost			4	20
+recterr 			913
+reclimiter			"+Statue of Ares"
+
+addcomrec 			"Priest of Athena"	       	100 20 0 0
+recterr 			914
+reclimiter			"-Priest of Athena"
+reclimiter			"-Archpriest of Athena"
+reclimiter			"-Statue of Athena"
+addcomrec 			"Archpriest of Athena"	    100 20 0 0
+recterr 			914
+reclimiter			"-Priest of Athena"
+reclimiter			"-Archpriest of Athena"
+reclimiter			"+Statue of Athena"
+addunitrec 			"Stymphalian Bird"	       	100 10 35 0 0
+recxcost			12	8
+recterr 			914
+addunitrec 			"Spawn of Arachne"	    	100 4 40 0 0
+recxcost			12	15
+recterr 			914
+reclimiter			"+Statue of Athena"
+addunitrec 			"Protector of Athena"	   	100 4 60 0 10
+recxcost			12	20
+recterr 			914
+reclimiter			"+Statue of Athena"
+
+addcomrec 			"Priest of Artemis"	       	100 20 0 0
+recterr 			915
+reclimiter			"-Priest of Artemis"
+reclimiter			"-Archpriest of Artemis"
+reclimiter			"-Statue of Artemis"
+addcomrec 			"Archpriest of Artemis"	    100 20 0 0
+recterr 			915
+reclimiter			"-Priest of Artemis"
+reclimiter			"-Archpriest of Artemis"
+reclimiter			"+Statue of Artemis"
+addunitrec 			"Erymanthian Boar"	       	100 2 40 0 0
+recxcost			2	30
+recterr 			915
+addunitrec 			"Tree Nymph"	       		100 2 25 0 0
+recxcost			2	80
+recterr 			915
+reclimiter			"+Statue of Artemis"
+addunitrec 			"Hunter of Artemis"	       	100 6 60 0 6
+recxcost			2	65
+recterr 			915
+reclimiter			"+Statue of Artemis"
+addunitrec 			"Calydonian Boar"	       	100 1 50 0 0
+recxcost			2	125
+recterr 			915
+reclimiter			"+Statue of Artemis"
+
+# ---------- Events --------------
+# Helot Uprising
+playerevent    
++minturnnbr 24
++class -2 "Spartan Kings"
++hasunit -2 "Helot Skirmisher"
++plane 0
++squareowner -2
++chance 3
+newunits        24 "4d4+10*Helot Skirmisher & 1d4+6*Helot Slinger"
+holdit			 1
+message         -1 "The Helots in Sparta can take it no more and have risen up!"
+randloc         0 -1126
+endevent
+
+# Passive Spartan Youth Generation # may need some balancing
+squareevent 
++minturnnbr 1
++player -2
++class -3 "Spartan Kings"
++terrain 911
++chance 6
+newunits -3 "1*Spartan Youth"
+endevent
+
+# Small event that, once a year, Aphrodite "gives" new spartan youth
+playerevent
++minturnnbr 1
++class -2 "Spartan Kings"
++season 0
++chance 4
+message -2 "Aprhodite has decided to grace Sparta with her powers of affection leading to a large number of new Spartan Youth at the Agoge."
++ownsloctarg -2 911
+newunits -2 "16*Spartan Youth"
+endevent
+
+# APOLLO: Passive Army Generation
+playerevent 
++class -2 "Spartan Kings"
++ownsloctarg -2 912
+-hasunit -2 "Statue of Apollo"
+-hasunit -2 "Statue of Ares"
+-hasunit -2 "Statue of Athena"
+-hasunit -2 "Statue of Artemis"
++chance 8
+newunits -2 "1*Archer of Apollo & 6*Remnant of Python"
+message -2 "Apollo sends a gift and seeks to be your patron."
+endevent
+
+# ARES: Passive Army Generation
+playerevent 
++class -2 "Spartan Kings"
++ownsloctarg -2 913
+-hasunit -2 "Statue of Apollo"
+-hasunit -2 "Statue of Ares"
+-hasunit -2 "Statue of Athena"
+-hasunit -2 "Statue of Artemis"
++chance 8
+newunits -2 "5*Amazon Warrior & 1*Mare of Diomedes"
+message -2 "Ares sends a gift and seeks to be your patron."
+endevent
+
+# ATHENA: Passive Army Generation
+playerevent 
++class -2 "Spartan Kings"
++ownsloctarg -2 914
+-hasunit -2 "Statue of Apollo"
+-hasunit -2 "Statue of Ares"
+-hasunit -2 "Statue of Athena"
+-hasunit -2 "Statue of Artemis"
++chance 8
+newunits -2 "8*Stymphalian Bird & 1*Protector of Athena"
+message -2 "Athena sends a gift and seeks to be your patron."
+endevent
+
+# ARTEMIS: Passive Army Generation
+playerevent 
++class -2 "Spartan Kings"
++ownsloctarg -2 915
+-hasunit -2 "Statue of Apollo"
+-hasunit -2 "Statue of Ares"
+-hasunit -2 "Statue of Athena"
+-hasunit -2 "Statue of Artemis"
++chance 8
+newunits -2 "1*Erymanthian Boar & 2*Hunter of Artemis"
+message -2 "Artmeis sends a gift and seeks to be your patron."
+endevent
+
+# Event for the granary of demeter
+#playerevent
+#+class -2 "Spartan Kings"
+#+season 1
+#+chance 15
+#-hasunit -1 "Typhon Unchained"
+#-minterrains 1 920 0
+#message -1 "The festival of Haloa has begun in Sparta and Demeter herself wishes to grace the land with her presence!"
+#randloc 0 -13 # Farms
+#alterterrain 920
+#reveal -1 5 1
+#endevent
+
+# If the granary is destroyed, demeter kills the destroyers and opens a portal to hades (She is also associated with hades and the underworld)
+#playerevent
+#+ownsloctarg -1 921
+#killsquare
+#alterterrain #Some underworld portal for underworld units to come through
+#endevent
+
+# THE BIG THREE: Spawn to hunt Typhon Unchained
+playerevent  
++class -2 "Spartan Kings"
++hasunit 24 "God of the Ocean"
++hasunit 26 "Typhon Unchained"
+-hasunit 24 "God of the Sky"
++chance 6
+randloc 0 919
+newunits 24 "c*God of the Sky & 4*Air Elemental & 10*Cloud Elemental & 28*Cloudfolk Soldier & 12*Cloudfolk Archer"
+message -1 "Frustrated at the lack of progress being made, Zeus, the Greek God of the Sky, has descended from his throne on Olympus to finish off Typhon once and for all."
+endevent
+
+playerevent  
++class -2 "Spartan Kings"
++hasunit 24 "God of the Underworld"
++hasunit 26 "Typhon Unchained"
+-hasunit 24 "God of the Ocean"
++chance 6
+randloc 0 919
+newunits 24 "c*God of the Ocean & 4*Champion of Waves & 6*Water Elemental & 28*Lesser Water"
+message -1 "Poseidon, God of the Ocean, has arrived upon Elysium to stop the still unshackled Typhon."
+endevent
+
+playerevent  
++class -2 "Spartan Kings"
++minterrains 1 919 0
+-hasunit 24 "God of the Underworld"
++hasunit 26 "Typhon Unchained"
++chance 100
+randloc 0 919
+newunits 24 "c*God of the Underworld & 1*Wraith & 4*Death Knight & 2*Wight & 20*Bane"
+message -1 "Hades, the God of the Underworld, graces you with his presence. He has been sent from Olympus to entomb Typhon once more."
+endevent
+
+# TYPHON UNCHAINED (converts Typhon to independent and spawns volcano)
+playerevent  
++minterrains 1 918 0
+-minterrains 1 919 0
++class -2 "Spartan Kings"
++chance 10
+randloc 0 -5
+alterterrain 919
+message -2 "The gates of Mount Olympus have been revealed to Elysium."
+endevent
+
+playerevent  
++class -2 "Spartan Kings"
++hasunit -2 "Typhon Unchained"
+changeowner 26
+targetunitloc
+alterterrain 918
+message -1 "The titan Typhon has broken from his chains. Upon realizing his opportunity, he now seeks vengence on gods and men alike! Cower in fear and pray for divine intervention!"
+endevent
+
+playerevent    
++minturnnbr 1
++class -2 "Spartan Kings"
+-hasunit 24 "Hephaestus the Blacksmith of the Gods"
+-hasunit 26 "Typhon Unchained"
++chance 15
+randloc 0 -42
+newunits 24 "1*Hephaestus the Blacksmith of the Gods"
+endevent
+
+# COMMANDER NAMING
+playerevent
++hasunit 24 "God of the Underworld"
+comname "Hades"
+endevent
+
+playerevent
++hasunit 24 "God of the Ocean"
+comname "Poseidon"
+endevent
+
+playerevent
++hasunit 24 "God of the Sky"
+comname "Zeus"
+endevent
+
+playerevent
++class -2 "Spartan Kings"
++hasunit -2 "Gorgon"
+comname "Medusa"
+endevent
+
+playerevent
++class -2 "Spartan Kings"
++hasunit -2 "Companion of Artemis"
+comname "Callisto"
+endevent
+
+playerevent
++class -2 "Spartan Kings"
++hasunit -2 "Father of Monsters"
+comname "Typhon"
+endevent
+
+playerevent
++class -2 "Spartan Kings"
++hasunit -2 "Hero of the Trojan War"
+comname "Achilles"
+endevent
+
+playerevent
++class -2 "Spartan Kings"
++hasunit -2 "Bulwark of the Achaeans"
+comname "Ajax"
+endevent
+
+playerevent
++class -2 "Spartan Kings"
++hasunit -2 "Friend of Achilles"
+comname "Petrocles"
+endevent
+
+playerevent
++class -2 "Spartan Kings"
++hasunit -2 "King of Ithaca"
+comname "Odysseus"
+endevent
+
+playerevent
++class -2 "Spartan Kings"
++hasunit -2 "Slayer of Monsters"
+comname "Bellerophon"
+endevent
+
+playerevent
++class -2 "Spartan Kings"
++hasunit -2 "Leader of the Argonauts"
+comname "Jason"
+endevent
+
+playerevent
++class -2 "Spartan Kings"
++hasunit -2 "Son of Poseidon"
+comname "Theseus"
+endevent
+
+playerevent
++class -2 "Spartan Kings"
++hasunit -2 "Champion of the Gods"
+comname "Heracles"
+endevent
